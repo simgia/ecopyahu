@@ -278,21 +278,23 @@ $this->load->view('comunes/cabecera');
 	</script>
 </head>
 <!--CUERPO-->
-<body onload='inicializar();'>	 
+<body onload='inicializar();'>
     <div id="id-ventana" style="display: none;">
         <p>por finnnnnn</p>
     </div>
 
-
+    <div id="content-denunciar">
         <?php $this->load->view('comunes/menu')?>
             <h2>Denuncias</h2>
             <br/>
             <br/>
             <center>
                 <div id="mapa" style="width: 960px; height: 550px;"></div>
+                <a class="twitter-timeline" href="https://twitter.com/ecopyahu" data-widget-id="393921229297430528">Tweets por @ecopyahu</a>
             </center>
-    </div>
 <!--CUERPO-->
 <?php $this->load->view('comunes/pie')?>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
 </body>
 </html>

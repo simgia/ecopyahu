@@ -2,14 +2,16 @@ body {
 	/*background: url(../images/bg.png);*/
     background: url(../images/bg-top.png);
 	font-family: Helvetica, sans-serif;
+    color: #333;
 }
 
 div[id^="content"] {
 	/*background: url(../images/bg-top.png) scroll left top transparent;*/
     background: white;
 	border-radius: .5em;
-	padding: 1em;
-    padding-bottom: 2em;
+	margin: 1em;
+    /*margin: 1em 1em 0 1em;
+    padding-bottom: 2em;*/
 }
 /*center {
     padding-bottom: 20px;
@@ -102,5 +104,6 @@ footer {
 	border-radius: 0 0 .5em .5em;
 	background: #437345;
 	margin-bottom: 0;
-    height: 20px
+    height: 20px;
+    margin-top: 20px
 }
