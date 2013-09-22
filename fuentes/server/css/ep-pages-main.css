@@ -1,13 +1,19 @@
 body {
-	background: url(../images/bg.png);
+	/*background: url(../images/bg.png);*/
+    background: url(../images/bg-top.png);
 	font-family: Helvetica, sans-serif;
 }
 
 div[id^="content"] {
-	background: url(../images/bg-top.png) scroll left top transparent;
+	/*background: url(../images/bg-top.png) scroll left top transparent;*/
+    background: white;
 	border-radius: .5em;
-	margin: 1em;
+	padding: 1em;
+    padding-bottom: 2em;
 }
+/*center {
+    padding-bottom: 20px;
+}*/
 
 
 /************************************************************************
@@ -27,7 +33,9 @@ nav {
 }
 
 div#logo img {
-	max-width: 60%;
+	max-width: 30%;
+    padding: 20px;
+    min-width: 100px;
 }
 
 div#logo:hover {
@@ -86,4 +94,13 @@ div#mapa iframe {
 	-o-transition: all 0.5s ease-in;
 	-webkit-transition: all 0.5s ease-in;
 	transition: all 0.5s ease-in;
+}
+/************************************************************************************
+*********************************** pie ******************************************
+************************************************************************************/
+footer {
+	border-radius: 0 0 .5em .5em;
+	background: #437345;
+	margin-bottom: 0;
+    height: 20px
 }
