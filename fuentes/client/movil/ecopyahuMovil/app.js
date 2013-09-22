@@ -9,6 +9,7 @@
     changes and its generated code, it will produce a "merge conflict" that you
     will need to resolve manually.
 */
+//var app_url = 'http://ecopyahu/';
 var app_url = 'http://192.168.1.155/';
 //var app_url = 'http://ecopyahu.simgia.com/';
 Ext.application({

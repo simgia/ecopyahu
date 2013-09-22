@@ -3,12 +3,17 @@ $this->load->view('comunes/cabecera');
 ?>
 <head>
     <link rel="stylesheet" href="<?php echo base_url() ?>js/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+    
+    
+    
     <script src="<?php echo base_url() ?>js/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script src="<?php echo base_url() ?>js/JQuery/jquery-1.9.1.js"></script>
-    <script src="<?php echo base_url() ?>js/JQuery/jquery-ui-1.10.3.custom.js"></script>
-    <script src="<?php echo base_url() ?>js/JQuery/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="<?php echo base_url() ?>js/JQuery/jquery.bpopup.min.js"></script>
-    <script src="<?php echo base_url() ?>js/JQuery/jquery.simplemodal.js"></script>
+    <script src="<?php echo base_url() ?>js/magnific-popup.js"></script>
+    
+    <link rel="stylesheet" href="<?php echo base_url() ?>css/magnific-popup.css" type="text/css">
+    
+    
+
     
     <style type="text/css">
         /*
@@ -65,6 +70,20 @@ $this->load->view('comunes/cabecera');
         }    
     </style>
     <script type="text/javascript">
+        
+        
+                /**
+         * abrir popup
+         */
+        function prepararWindow(){
+            console.log('adsf');
+        
+            $('.simple-ajax-popup').magnificPopup({
+                     type: 'ajax',
+                     overflowY: 'scroll' // as we know that popup content is tall we set scroll overflow by default to avoid jump
+             });
+        }
+        
     	//Objetos
     	var scope = this;
     	var v_mapa;				// Mapa.
@@ -176,7 +195,8 @@ $this->load->view('comunes/cabecera');
             	}// Fin del else.
            ?>
            	v_marcador.events.register('click', v_marcador, function(evt) {
-                    if(v_popup == null){
+                    
+                                       if(v_popup == null){
                         v_popup = new OpenLayers.Popup("Denuncias",
                             new OpenLayers.LonLat(<?php echo $punto->longitud; ?>, <?php echo $punto->latitud; ?>).transform(
 		                v_fromProjection, 					// Transformar from WGS 1984
@@ -196,8 +216,8 @@ $this->load->view('comunes/cabecera');
 	           	        "<?php 
                                      if($punto->cantidad == 1){
                                          $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->denuncia_id);
-	           	        	 //echo "<br>La denuncia es: <a href='".$v_url."' target='_blank' >" . $punto->denuncia_id . '</a>';
-                                         echo "<br>La denuncia es: <a rel='pop-up' href='javascript:ver_detalle_denuncia($punto->denuncia_id);'>" . $punto->denuncia_id . '</a>';
+	           	        	 //echo "<br>La denuncia es: <a id= href='".$v_url."' target='_blank' >" . $punto->denuncia_id . '</a>';
+                                         echo "<br>La denuncia es: <a  class='simple-ajax-popup' href='denuncias/getDenuncia/".$punto->denuncia_id."'>" . $punto->denuncia_id . '</a>';
                                          //echo "<br>La denuncia es: <a href='http://google.com' onclick='window.open(this.href, 'windowName', 'width=1000, height=700, left=24, top=24, scrollbars, resizable'); return false;'>" . $punto->denuncia_id . '</a>';
                                          //echo "<a id='some_id' onclick='ver_detalle_denuncia' class='optional_has_click'>Click Me</a>";
                                          
@@ -206,8 +226,8 @@ $this->load->view('comunes/cabecera');
 	           	             }else{
 	           	        	 echo '<br>Las denuncias son: <ul>';
 	           	        	 for($i = 0; $i < count($punto->denuncias); $i++){
-                                             $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->denuncias[$i]->denuncia_id);
-	           	        	     echo "<li><a target='_blank' href='".$v_url."'>".$punto->denuncias[$i]->denuncia_id."</a></li>";
+                                             $v_url = base_url('denuncias/getDenuncia').'/'.trim($punto->denuncias[$i]->denuncia_id);
+	           	        	     echo "<li><a class='simple-ajax-popup' ' href='".$v_url."'>".$punto->denuncias[$i]->denuncia_id."</a></li>";
                                          }
                                          echo '</ul>';
                                      }
@@ -223,14 +243,17 @@ $this->load->view('comunes/cabecera');
 	            	    v_popup.setBackgroundColor("white");
 	            	    v_popup.setBorder("1px solid #CCCCCC");
 	            	    v_mapa.addPopup(v_popup);
+                                    prepararWindow();
            		}else{
            		     v_popup.destroy();
            		     v_popup = null;
                              //v_popup.toggle();
                 	}
-               		OpenLayers.Event.stop(evt);
-           		}); // Fin del evento click del v_marcador.
-           		v_layer_marcador.addMarker(v_marcador); 
+                    
+
+                    OpenLayers.Event.stop(evt);
+           	}); // Fin del evento click del v_marcador.
+           	v_layer_marcador.addMarker(v_marcador); 
            <?php
             	}//end foreach.
                 }// end if.
@@ -250,24 +273,17 @@ $this->load->view('comunes/cabecera');
             ); 
         } // Fin de la funcion inicializar.
         
-        /**
-         * 
-         */
-        function ver_detalle_denuncia(p_denuncia_id){
-            $(document).ready( function() {
-                $("a[rel='pop-up']").click(function () {
-                    var caracteristicas = "height=450,width=400,resizable=0,scrollbars=0,status=no,toolbar=no,menubar=no,location=no";
 
-                    nueva = window.open('denuncias/consulta_detalle_denuncia/?denuncia_id=' + p_denuncia_id, '_blank', caracteristicas);
-                    return false;
-                });
-            });
-        }
+        
 	</script>
 </head>
 <!--CUERPO-->
 <body onload='inicializar();'>	 
-    <div id="content-denunciar">		
+    <div id="id-ventana" style="display: none;">
+        <p>por finnnnnn</p>
+    </div>
+
+
         <?php $this->load->view('comunes/menu')?>
             <h2>Denuncias</h2>
             <br/>

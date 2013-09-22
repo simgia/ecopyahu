@@ -17,7 +17,6 @@ class denuncias_redes_sociales extends CI_Controller{
 	 */
 	public function __construct(){
                     parent::__construct();
-                    $this->load->model('redes_sociales_m','redes_sociales');
                     $this->load->model('denuncias_m','denuncias');
                     $this->load->model('multimedias_m','multimedias');
                     
