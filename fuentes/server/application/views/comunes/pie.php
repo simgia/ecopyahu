@@ -1,6 +1,6 @@
 <!--pie-->
 <footer>
-    <div></div>
+    <div><a href="javascript:window.open('http://2013.desarrollandoamerica.org/portfolio/ecopyahu/')"><img src="http://2013.desarrollandoamerica.org/wp-content/themes/dalboot2013/img/dal/logo_black_bg.png"></a><span class="right">2013</span></div>
 </footer>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -289,7 +289,7 @@ $this->load->view('comunes/cabecera');
             <br/>
             <br/>
             <center>
-                <div id="mapa" style="width: 960px; height: 550px;"></div>
+                <div id="mapa-contenedor"><div id="mapa"></div></div>
                 <div id="twits">
                 <a class="twitter-timeline" href="https://twitter.com/ecopyahu" data-widget-id="393921229297430528">Tweets por @ecopyahu</a>
                 </div>

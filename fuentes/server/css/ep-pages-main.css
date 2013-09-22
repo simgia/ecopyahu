@@ -36,7 +36,7 @@ nav {
 
 div#logo img {
 	max-width: 30%;
-    padding: 20px;
+    /*padding: 20px;*/
     min-width: 100px;
 }
 
@@ -75,9 +75,20 @@ nav ul li a:hover {
 	color: #DDD;
 }
 
-
-div#mapa iframe {
+#mapa-contenedor {
+    overflow: hidden;
+    max-width: 100%;
+    min-width: 180px;
+    height: 550px;
+}
+/*div#mapa {
 	overflow: hidden;
+    max-width: 100%;
+    min-width: 180px;
+    height: 550px;
+}*/
+#mapa {
+    width: 60%;
 }
 #twits {
     margin-top: 20px;
@@ -107,6 +118,10 @@ footer {
 	border-radius: 0 0 .5em .5em;
 	background: #437345;
 	margin-bottom: 0;
-    height: 20px;
-    margin-top: 20px
+    margin-top: 20px;
+    color: white;
+}
+.right {
+    float: right;
+    padding: 10px;
 }
