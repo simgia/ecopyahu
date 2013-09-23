@@ -284,7 +284,7 @@ $this->load->view('comunes/cabecera');
             <h2>Denuncias</h2>
             <br/>
             <center>
-                <a name="mapa"></a>
+                <a name="mapalink"></a>
                 <div class="menuinterno">
                     <nav>
                         <ul>
@@ -299,7 +299,7 @@ $this->load->view('comunes/cabecera');
                 <div class="menuinterno">
                     <nav>
                         <ul>
-                            <li><a class="btn menuinterno" href="#mapa">Mapa <i class="fa fa-location-arrow"></i></a></li>
+                            <li><a class="btn menuinterno" href="#mapalink">Mapa <i class="fa fa-location-arrow"></i></a></li>
                             <li><a class="btn menuinterno" href="#api">API <i class="fa fa-cogs"></i></a></li>
                         </ul>
                     </nav>
@@ -312,7 +312,7 @@ $this->load->view('comunes/cabecera');
                     <nav>
                         <ul>
                             <li><a class="btn menuinterno" href="#twitter">Tweets <i class="fa fa-twitter"></i></a></li>
-                            <li><a class="btn menuinterno" href="#mapa">Mapa <i class="fa fa-location-arrow"></i></a></li>
+                            <li><a class="btn menuinterno" href="#mapalink">Mapa <i class="fa fa-location-arrow"></i></a></li>
                         </ul>
                     </nav>
                 </div>
