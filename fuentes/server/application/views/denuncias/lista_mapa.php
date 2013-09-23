@@ -279,20 +279,87 @@ $this->load->view('comunes/cabecera');
 </head>
 <!--CUERPO-->
 <body onload='inicializar();'>
-    <div id="id-ventana" style="display: none;">
-        <p>por finnnnnn</p>
-    </div>
-
     <div id="content-denunciar">
         <?php $this->load->view('comunes/menu',array("origen"=>"denuncias"))?>
             <h2>Denuncias</h2>
             <br/>
-            <br/>
             <center>
-                <div id="mapa-contenedor"><div id="mapa"></div></div>
+                <a name="mapa"></a>
+                <div class="menuinterno">
+                    <nav>
+                        <ul>
+                            <li><a class="btn menuinterno" href="#twitter">Tweets <i class="fa fa-twitter"></i></a></li>
+                            <li><a class="btn menuinterno" href="#api">API <i class="fa fa-cogs"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="mapa-contenedor"><div id="mapa">
+                </div></div>
+                <a name="twitter"></a>
+                <div class="menuinterno">
+                    <nav>
+                        <ul>
+                            <li><a class="btn menuinterno" href="#mapa">Mapa <i class="fa fa-location-arrow"></i></a></li>
+                            <li><a class="btn menuinterno" href="#api">API <i class="fa fa-cogs"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
                 <div id="twits">
                 <a class="twitter-timeline" href="https://twitter.com/ecopyahu" data-widget-id="393921229297430528">Tweets por @ecopyahu</a>
                 </div>
+                <a name="api"></a>
+                <div class="menuinterno">
+                    <nav>
+                        <ul>
+                            <li><a class="btn menuinterno" href="#twitter">Tweets <i class="fa fa-twitter"></i></a></li>
+                            <li><a class="btn menuinterno" href="#mapa">Mapa <i class="fa fa-location-arrow"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class=acceso-api>
+                    <h3>Acceso a la API</h3>
+                    ecoPYahu ofrece todos los datos de las denuncias almacenadas en su base de datos. Los mismos son accesibles a traves de su API, en formato json.
+                    <br><br>
+                    Ejemplo de llamada:
+                </div>
+                <code>http://ecopyahu.simgia.com/ws/getDenuncias?cant=2&ord=asc&pag=1</code>
+                
+                
+<code><p>stdClass Object
+(
+  [denuncias] => Array
+    (
+      [0] => stdClass Object
+        (
+          [denuncia_id] => 162
+          [denuncia_desc] => Prueba: Estan produciendo mucho sonido, y no puedo ver a mi perro... #ecopyahu #ContaminacionSonora http://t.co/rPCKyTd1Ag
+          [denuncia_fecha] => 2013-10-19 18:37:41
+          [denuncia_lat] => 
+          [denuncia_lon] => 
+          [denuncia_fuente] => twitter
+          [denuncia_ext_id] => 391739970743832576
+          [categoria_nombre] => 
+          [multimedias] => 
+        )
+
+      [1] => stdClass Object
+        (
+          [denuncia_id] => 163
+          [denuncia_desc] => Prueba: esta vez sin media... #ecopyahu #ContaminacionSonora #DAL2013
+          [denuncia_fecha] => 2013-10-20 09:49:02
+          [denuncia_lat] => 
+          [denuncia_lon] => 
+          [denuncia_fuente] => twitter
+          [denuncia_ext_id] => 391969318256140288
+          [categoria_nombre] => 
+          [multimedias] => 
+        )
+
+    )
+
+  [cantidad_total] => 25
+)
+</p></code>
             </center>
 <!--CUERPO-->
 <?php $this->load->view('comunes/pie')?>

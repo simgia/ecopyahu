@@ -32,3 +32,17 @@ textarea {
 #mapa {
     width: 95%
 }
+
+div.menuinterno nav{
+    width: 95%;
+    text-align: center
+}
+div.acceso-api {
+    width: 90%;
+    text-align: left
+}
+
+code  {
+    font-size: 10pt;
+    width: 90%
+}

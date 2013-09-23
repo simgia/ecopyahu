@@ -13,7 +13,10 @@ $this->load->view('comunes/cabecera');
             <code> Enviar un tweet con el <i>hashtag</i> <b>#ecopyahu</b> </code>
             </p>
 
-            <h3>Utilizando app ecoPYahu</h3><br><br>
+            <h3>Utilizando app ecoPYahu</h3>
+            <p>Si lo desea puede bajar la app para su plataforma espec&iacute;fica con los enlaces situados m&aacute;s arriba, en el men&uacute; principal. La app ecoPYahu permite tomar fotograf&iacute;as obtener la informaci&oacute;n geogr&aacute;fica desde su dispositivo m&oacute;vil, ingresar datos adicionales y enviar la denuncia. La misma se registrar&aacute; en el servidor y se generar&aacute; un tweet con la misma informaci&oacute;n en la cuenta de Twitter @ecopyahu.
+            
+            </p>
             
         <?php $this->load->view('comunes/pie')?>
     </div>

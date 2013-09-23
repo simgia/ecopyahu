@@ -80,6 +80,7 @@ nav ul li a:hover {
     max-width: 100%;
     min-width: 180px;
     height: 550px;
+    margin-bottom: 20px;
 }
 /*div#mapa {
 	overflow: hidden;
@@ -91,7 +92,7 @@ nav ul li a:hover {
     width: 60%;
 }
 #twits {
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /************************************************************************************
@@ -141,12 +142,13 @@ p {
     margin-bottom: 13px;
     line-height: 150%;
     padding: 20px;
+    text-align: left;
 }
 
 pre,
 code  {
     font-family: consolas, courier, monospace;
-    font-size: 1em;
+    font-size: 12pt;
     line-height: 1.2em;
     white-space: pre;
     background-color: #444444;
@@ -159,4 +161,28 @@ code  {
     margin: 1.2em 1em;
     width: 50%; /* or whatever you prefer */
     display: block;
+    text-align: left;
+}
+
+nav ul li a.menuinterno {	
+	color: #666;
+	font-size: 12px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+nav ul li a:hover  .menuinterno{	
+	color: #DDD;
+}
+div.menuinterno{
+    text-align: right;
+    line-height: 40px;
+}
+div.menuinterno nav{
+    width: 60%;
+    text-align: center
+}
+div.acceso-api {
+    width: 60%;
+    text-align: left
 }
