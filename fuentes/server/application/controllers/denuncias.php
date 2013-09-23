@@ -17,7 +17,8 @@ class denuncias extends SMG_Controller{
     public function __construct(){
         parent::__construct();
         $this->load->model('denuncias_m', 'denuncias');	
-        $this->load->model('multimedias_m', 'multimedias');	
+        $this->load->model('multimedias_m', 'multimedias');
+        $this->load->library ( 'twitter' );
     }
 	
    
