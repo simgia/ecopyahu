@@ -69,7 +69,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language']	= 'spanish';
 
 /*
 |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ $config['enable_hooks'] = FALSE;
 | http://codeigniter.com/user_guide/general/creating_libraries.html
 |
 */
-$config['subclass_prefix'] = 'MY_';
+$config['subclass_prefix'] = 'SMG_';
 
 
 /*
@@ -180,7 +180,13 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+if(ENVIRONMENT==DEVELOPMENT){
+	$config['log_threshold'] = 3;
+}elseif(ENVIRONMENT == TESTING){
+	$config['log_threshold'] = 4;
+}elseif(ENVIRONMENT==PRODUCTION){
+	$config['log_threshold'] = 0;
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -224,7 +230,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'ecopyahu';
 
 /*
 |--------------------------------------------------------------------------
@@ -244,15 +250,15 @@ $config['encryption_key'] = '';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 84400;
-$config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
+$config['sess_cookie_name']		= 'ecopyahu';
+$config['sess_expiration']		= 7200;
+$config['sess_expire_on_close']	= true;
+$config['sess_encrypt_cookie']	= true;
+$config['sess_use_database']	= true;
 $config['sess_table_name']		= 'ci_sessions';
-$config['sess_match_ip']		= FALSE;
+$config['sess_match_ip']		= true;
 $config['sess_match_useragent']	= TRUE;
-$config['sess_time_to_update']	= 300;
+$config['sess_time_to_update']	= 86400;
 
 /*
 |--------------------------------------------------------------------------
@@ -356,7 +362,7 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
-
+$config['session_live'] = 21600;
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
