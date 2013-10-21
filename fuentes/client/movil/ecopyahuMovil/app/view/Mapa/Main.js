@@ -17,7 +17,7 @@ Ext.define('ecopyahuMovil.view.Mapa.Main', {
             items: [{
 		xtype: 'leafletmap',
 		id: 'leafletmap',
-		useCurrentLocation: true,
+		useCurrentLocation: false,
 		autoMapCenter: false,
                 enableOwnPositionMarker: true,
 		mapOptions: {
