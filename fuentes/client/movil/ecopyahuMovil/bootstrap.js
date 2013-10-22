@@ -727,6 +727,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.device.analytics.Cordova": [],
   "Ext.ux.device.twitter.Abstract": [],
   "Ext.ux.device.twitter.Cordova": [],
+  "Ext.ux.field.FullScreenTextArea": [],
   "Ext.ux.parse.Helper": [
     "ParseHelper"
   ],
@@ -1666,6 +1667,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.device.analytics.Cordova": [],
   "Ext.ux.device.twitter.Abstract": [],
   "Ext.ux.device.twitter.Cordova": [],
+  "Ext.ux.field.FullScreenTextArea": [
+    "widget.fullscreentextarea"
+  ],
   "Ext.ux.parse.Helper": [],
   "Ext.ux.parse.Model": [],
   "Ext.ux.parse.Proxy": [

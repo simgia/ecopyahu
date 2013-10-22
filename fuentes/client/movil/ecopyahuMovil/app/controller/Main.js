@@ -51,7 +51,9 @@ Ext.define('ecopyahuMovil.controller.Main',{
             //success: this.onCaptureSuccess,
             success: fotoExitosa,
             scope: this,
-            quality : 85,//for testing havving this at 50 does faster uploads
+            quality : 85,
+            /*width: 200,
+            height: 200,*/
             source: 'camera',
             destination: 'data'
         });

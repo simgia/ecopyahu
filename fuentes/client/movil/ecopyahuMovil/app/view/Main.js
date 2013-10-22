@@ -1,10 +1,11 @@
 Ext.define("ecopyahuMovil.view.Main", {
-    extend: 'Ext.Panel',
+    extend: 'Ext.form.FormPanel',
     requires: [
         'Ext.TitleBar',
         'Ext.Button',
         'Ext.Label',
-        'Ext.Img'
+        'Ext.Img',
+        'Ext.ux.field.FullScreenTextArea'
     ],
     xtype: 'mainviewport',
     config: {
@@ -37,15 +38,58 @@ Ext.define("ecopyahuMovil.view.Main", {
             items: [{
                 xtype : 'image',
                 itemId: 'img',
-                height: 400
+                height: 200
             }]
         },{
+            xtype: 'fieldset',
+            title: 'Seleccione una subcategor\u00eda', 
+            items: [{
+                xtype: 'selectfield',
+                options: [
+                    {text: 'Contaminaci\u00f3n ambiental',  value: 'contaminacion_ambiental'},
+                    {text: 'Contaminaci\u00f3n sonora', value: 'contaminacion_sonora'},
+                    {text: 'Poluci\u00f3n visual',  value: 'polucion_visual'},
+                    {text: 'Espacios p\u00fablicos',  value: 'espacios_publicos'},
+                    {text: 'Animales sueltos',  value: 'animales_sueltos'},
+                    {text: 'Otros',  value: 'otros'}
+                ]
+            }]
+        },{
+            /*
+            xtype: 'textareafield',
+            label: 'Descripci\u00f3n',
+            itemId: 'textarea_descripcion',
+            maxRows: 4,
+            name: 'descripcion'
+            */
+            xtype: 'fullscreentextarea',
+            label: 'Descripci\u00f3n',
+            itemId: 'textarea_descripcion',
+            maxRows: 4,
+            name: 'descripcion'
+        },{
             xtype: 'button',
-            html: '<h1 style="color:#FFF">Enviar</h1>',
+            html: '<h3 style="color:#FFF">Enviar</h3>',
+            //text: 'Enviar',
             action: 'enviar_denuncia',
             ui: 'action rounded',
-            height: 100,
-            style: 'margin-bottom:1em;'
+            height: 50,
+            margin: '20 10'
+            //style: 'margin-bottom:1em;'
         }]
     }
+    /*
+    initComponent: function(p_component, p_options){
+        var v_textarea = Ext.getCmp('textarea_descripcion');
+        
+        v_textarea.on("keyup", function(p_field, p_event) {
+            var v_filas = p_field.getValue().split("\n").length;
+
+            if( v_filas >= 4){
+                v_filas = v_filas++;
+                v_textarea.setMaxRows( numOfRows );
+            }
+        });
+    }
+    */
 });
