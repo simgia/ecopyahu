@@ -746,6 +746,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "ecopyahuMovil.controller.Main": [],
   "ecopyahuMovil.controller.Mapa.Main": [],
   "ecopyahuMovil.store.ImageQueue": [],
+  "ecopyahuMovil.view.Denuncia.Camara": [],
   "ecopyahuMovil.view.Main": [],
   "ecopyahuMovil.view.Mapa.Main": []
 });
@@ -1691,6 +1692,9 @@ Ext.ClassManager.addNameAliasMappings({
   "ecopyahuMovil.controller.Mapa.Main": [],
   "ecopyahuMovil.store.ImageQueue": [
     "widget.imagesqueue"
+  ],
+  "ecopyahuMovil.view.Denuncia.Camara": [
+    "widget.capturarImagen"
   ],
   "ecopyahuMovil.view.Main": [
     "widget.mainviewport"

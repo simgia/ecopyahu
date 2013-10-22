@@ -4,10 +4,20 @@ Ext.define('ecopyahuMovil.controller.Main',{
         'Ext.device.Camera',
         'Ext.device.Connection'
     ],
+    /**
+     * Se guarda la latitud actual.
+     */ 
+    latitud: null,
+    
+    /**
+     * Se guarda la longitud actual.
+     */ 
+    longitud: null,
+        
     config: {		
         refs: {
 	    principal: 'mainviewport',
-            Img: '#img',
+            Img: '#img'
         },
 	control: {		
             'mainviewport button[action=snapPicture]': {
@@ -16,9 +26,17 @@ Ext.define('ecopyahuMovil.controller.Main',{
             
             'mainviewport button[action=marcar_mapa]': {
 	        tap: 'abrirMapa'
-	    }
+	    },
+            
+            'mainviewport button[action=enviar_denuncia]': {
+	        tap: 'enviarDenuncia'
+	    },
+            
+            'capturarImagen': {
+                sacar_foto: 'openCamera'
+            }
 	},
-        areImagesUploading: false,
+        areImagesUploading: false
     },
 
     /**
@@ -159,12 +177,74 @@ Ext.define('ecopyahuMovil.controller.Main',{
         }
     },        
             
-    launch:function(){
+    launch: function(){
         console.log('This thing has started.');
         if(oneReady || Ext.os.is.Desktop){//if we are on desktop we assume there's no phonegap.
             this.hola();
         }else{
             oneReady = true;
         }
+    },
+    
+    /**
+     * Metodo que inicializa y obtiene la latitud y longitud del dispositivo movil.
+     */
+    init: function () {
+        var v_scope = this;
+        var onSuccess = function(position){
+            // Se obtiene la latitud actual.
+            v_scope.latitud = position.coords.latitude;
+            
+            // Se obtiene la longitud actual.
+            v_scope.longitud = position.coords.longitude;
+        };
+
+        // onError Callback receives a PositionError object
+        var onError = function(error){
+            alert('código: ' + error.code + '\n' +
+                'mensaje: ' + error.message + '\n');
+        }
+        
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    },
+    
+    /**
+     * 
+     */
+    enviarDenuncia: function(){
+        var v_scope = this;
+        
+        // Obtener los datos del GPS.
+        var v_latitud = v_scope.latitud;
+        var v_longitud = v_scope.longitud;
+        
+        // Se obtiene la referencia de la imagen.
+        var v_imagen = v_scope.getImg();
+        
+        Ext.Ajax.request({
+            url: 'http://localhost/serverPruebva',
+            method: 'POST',
+            params: {
+               latitud: v_latitud,
+               longitud: v_longitud
+               //imagen: Ext.encode(v_imagen)
+            },
+            //scope: this,
+            success: function(p_response, p_options){
+                var v_respuesta = Ext.JSON.decode(p_response.responseText);
+		
+                if(v_respuesta.resultado == true){
+                    Ext.Msg.alert('Exito','Se ha enviado correctamente la denuncia');
+		}else{
+		     Ext.Msg.alert('Error','No se pudo enviar la denuncia');
+                } 
+            },
+            failure: function(){
+                //<debug>
+                console.log('Error en ajax');
+		console.log(arguments);
+		//</debug>			
+            }
+        });
     }
 });

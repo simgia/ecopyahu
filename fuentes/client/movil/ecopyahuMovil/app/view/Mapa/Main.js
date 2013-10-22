@@ -3,7 +3,7 @@ Ext.define('ecopyahuMovil.view.Mapa.Main', {
     xtype: 'main',
     id: 'mainTabPanel',
     requires: [
-        'Ext.ux.LeafletMap',
+        'Ext.ux.LeafletMap'
     ],
 	
     config: {
@@ -17,7 +17,7 @@ Ext.define('ecopyahuMovil.view.Mapa.Main', {
             items: [{
 		xtype: 'leafletmap',
 		id: 'leafletmap',
-		useCurrentLocation: false,
+		useCurrentLocation: true,
 		autoMapCenter: false,
                 enableOwnPositionMarker: true,
 		mapOptions: {

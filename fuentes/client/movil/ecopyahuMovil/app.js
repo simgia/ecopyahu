@@ -19,7 +19,8 @@ Ext.application({
 
     views: [
         'Main',
-        'Mapa.Main'
+        'Mapa.Main',
+        'Denuncia.Camara'
     ],
     controllers: [
         'Main',
@@ -50,8 +51,8 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        //Ext.Viewport.add(Ext.create('ecopyahuMovil.view.Main'));
-        Ext.Viewport.add(Ext.create('ecopyahuMovil.view.Mapa.Main'))
+        Ext.Viewport.add(Ext.create('ecopyahuMovil.view.Main'));
+        //Ext.Viewport.add(Ext.create('ecopyahuMovil.view.Mapa.Main'))
     },
 
     onUpdated: function() {

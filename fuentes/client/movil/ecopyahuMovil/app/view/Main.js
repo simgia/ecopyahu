@@ -17,22 +17,17 @@ Ext.define("ecopyahuMovil.view.Main", {
             xtype: 'titlebar',
             title: 'Ecopyahu'
         },{
-            xtype: 'button',
-            html: '<h1 style="color:#FFF">Foto</h1>',
-            action: 'snapPicture',
-            ui: 'action rounded',
-            height: 100,
-            style: 'margin-bottom:1em;'
-        },{
+            xtype: 'capturarImagen'
+        }/*,{
             xtype: 'button',
             html: '<h1 style="color:#FFF">Mapa</h1>',
             action: 'marcar_mapa',
             ui: 'action rounded',
             height: 100,
             style: 'margin-bottom:1em;'
-        },{
+        }*/,{
             xtype: 'label',
-            id: 'hconsole',
+            id: 'hconsole'
             //html: 'log:'
         },{
             xtype: 'container',
@@ -44,6 +39,13 @@ Ext.define("ecopyahuMovil.view.Main", {
                 itemId: 'img',
                 height: 400
             }]
+        },{
+            xtype: 'button',
+            html: '<h1 style="color:#FFF">Enviar</h1>',
+            action: 'enviar_denuncia',
+            ui: 'action rounded',
+            height: 100,
+            style: 'margin-bottom:1em;'
         }]
     }
 });
