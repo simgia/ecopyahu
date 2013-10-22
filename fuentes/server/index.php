@@ -22,7 +22,6 @@
 	define('PRODUCTION','production');
 	define('TESTING','testing');
 	define('ENVIRONMENT',DEVELOPMENT);	
-                define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
