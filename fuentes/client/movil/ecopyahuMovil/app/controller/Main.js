@@ -20,10 +20,6 @@ Ext.define('ecopyahuMovil.controller.Main',{
             Img: '#img'
         },
 	control: {		
-            'mainviewport button[action=snapPicture]': {
-	        tap: 'openCamera'
-	    },
-            
             'mainviewport button[action=marcar_mapa]': {
 	        tap: 'abrirMapa'
 	    },
