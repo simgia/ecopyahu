@@ -78,18 +78,4 @@ Ext.define("ecopyahuMovil.view.Main", {
             //style: 'margin-bottom:1em;'
         }]
     }
-    /*
-    initComponent: function(p_component, p_options){
-        var v_textarea = Ext.getCmp('textarea_descripcion');
-        
-        v_textarea.on("keyup", function(p_field, p_event) {
-            var v_filas = p_field.getValue().split("\n").length;
-
-            if( v_filas >= 4){
-                v_filas = v_filas++;
-                v_textarea.setMaxRows( numOfRows );
-            }
-        });
-    }
-    */
 });

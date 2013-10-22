@@ -1,6 +1,6 @@
 <?php
 /**
- * Super controlador  para Conacyt.
+ * Super controlador  para ecopyahu.
  * Todos los controladores que tienen funcionalidades en comun haran un extends de este controlador
  * @author Juan Bauer
  * @author Pablo Ruiz Diaz

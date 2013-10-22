@@ -18,11 +18,10 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-                define('DEVELOPMENT','development');
-	define('PRODUCTION','production');
-	define('TESTING','testing');
-	define('ENVIRONMENT',DEVELOPMENT);	
-                define('ENVIRONMENT', 'development');
+define('DEVELOPMENT','development');
+define('PRODUCTION','production');
+define('TESTING','testing');	
+define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

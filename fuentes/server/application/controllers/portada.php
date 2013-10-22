@@ -21,5 +21,14 @@ class portada extends SMG_Controller{
 	public function index(){
 		$this->load->view('portada');
 	}	
+        
+        
+        /**
+         * 
+         */
+        public function movil(){
+            $this->load->view('movil');
+        }
+        
 }	
 	

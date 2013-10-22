@@ -207,10 +207,14 @@ Ext.define('ecopyahuMovil.controller.Main',{
     },
     
     /**
-     * 
+     * Metodo que envia una denuncia al servidor.
      */
     enviarDenuncia: function(){
         var v_scope = this;
+        var v_formulario = v_scope.getPrincipal();
+        var v_field_categoria = v_formulario.down('fieldset');
+        var v_subcategoria = v_field_categoria.down('selectfield');
+        var v_denuncia_descripcion = v_formulario.down('fullscreentextarea');
         
         // Obtener los datos del GPS.
         var v_latitud = v_scope.latitud;
@@ -219,18 +223,28 @@ Ext.define('ecopyahuMovil.controller.Main',{
         // Se obtiene la referencia de la imagen.
         var v_imagen = v_scope.getImg();
         
+        alert("3");
+        
         Ext.Ajax.request({
-            url: 'http://localhost/serverPruebva',
-            method: 'POST',
+            //url: 'http://ecopyahu/denuncias_movil/insertar_denuncia',
+            url: 'http://192.168.1.152/denuncias_movil/insertar_denuncia',
+            //url: 'denuncias_movil/insertar_denunciar',
+            method: 'GET',
             params: {
                latitud: v_latitud,
-               longitud: v_longitud
+               longitud: v_longitud,
+               descripcion: v_denuncia_descripcion.getValue(),
+               subcategoria: v_subcategoria.getValue(),
+               fuente: 'movil'
                //imagen: Ext.encode(v_imagen)
             },
             //scope: this,
             success: function(p_response, p_options){
+                alert("1");
                 var v_respuesta = Ext.JSON.decode(p_response.responseText);
 		
+                console.log("v_respuesta", v_respuesta);
+                
                 if(v_respuesta.resultado == true){
                     Ext.Msg.alert('Exito','Se ha enviado correctamente la denuncia');
 		}else{
@@ -239,6 +253,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
             },
             failure: function(){
                 //<debug>
+                alert("2");
+                Ext.Msg.alert('Exito', 'Error en ajax');
                 console.log('Error en ajax');
 		console.log(arguments);
 		//</debug>			

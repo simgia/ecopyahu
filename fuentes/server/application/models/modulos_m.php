@@ -86,4 +86,4 @@ class modulos_m extends CI_Model{
 		
 		return $this->db->get();
 	}
-} // Fin del model clientes_m.
+} // Fin del model modulos_m.
