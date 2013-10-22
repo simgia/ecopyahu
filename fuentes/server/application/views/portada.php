@@ -1,7 +1,6 @@
 <?php 
 $this->load->view('comunes/cabecera');
 ?>
-<body>
 <!--CUERPO-->
 <body>		
     <div id="content-denunciar">		
@@ -39,7 +38,6 @@ $this->load->view('comunes/cabecera');
 
             <br />
             <br />
-        <?php $this->load->view('comunes/pie')?>
     </div>
 <!--CUERPO-->
 <?php $this->load->view('comunes/pie')?>

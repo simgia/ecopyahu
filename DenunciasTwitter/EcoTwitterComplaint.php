@@ -30,7 +30,7 @@
 			$this->tweetsDecode = json_decode( $this->tweets->setGetfield( $this->getField )
 							        ->buildOauth( $this->url, $this->requestMethod )
 							        ->performRequest() );
-
+                                                print_r($this->tweetsDecode);                    
 			//Obtiene solo los statuses
 			$this->tweets = $this->tweetsDecode->statuses;
 			

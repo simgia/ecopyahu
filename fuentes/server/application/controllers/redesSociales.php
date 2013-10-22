@@ -1,7 +1,8 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * @author 
+ * @author jbauer
+ * @author valentin
  * @package ecopyahu
  *
  */
@@ -29,7 +30,9 @@ class redesSociales extends CI_Controller{
 	
 	
                 public function denunciasByTwitter(){
-                    $this->load->library('',  $this->tw_settings);
+                    $twitter = $this->load->library('TwitterAPIExchange',  $this->tw_settings);
+                    
+                    
                     
                 }
 	
