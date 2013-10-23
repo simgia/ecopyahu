@@ -83,6 +83,7 @@ class redes_sociales extends CI_Controller{
                                         }else{
                                             $path = $this->tw_video_path;
                                         }
+                                        //elimina los archivos copiados
                                         unlink($path.$multimedia->multimedia_file_name);
                                      }
                                      break;
