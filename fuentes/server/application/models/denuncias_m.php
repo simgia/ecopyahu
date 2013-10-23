@@ -47,16 +47,20 @@ class denuncias_m extends CI_Model{
     }
     
     /**
-     * 
-     * @param type $publicacion_id
-     * @param type $imagen_nombre
-     * @param type $usuario_id
-     * @return type
+    *
      */
-    public function guardarImagen($publicacion_id, $imagen_nombre, $usuario_id = 1){
-        return $this->db->insert('imagenes',
-            array('publicacion_id' => $publicacion_id,
-                'imagen_nombre' => $imagen_nombre,
-		'usuario_id' => $usuario_id));
+    public function guardar_multimedia($denuncia_id,$file_name,$tipo, $descripcion){
+        $datos = array(
+            'denuncia_id'=>$denuncia_id,
+            'multimedia_file_name'=>$file_name,
+            'multimedia_tipo'=>$tipo,
+            'multimedia_desc'=>$descripcion,
+        );
+        return $this->db->insert('multimedias',$datos);
+    }
+    
+    public  function get_multimedias($denuncia_id){
+        $this->db->where('denuncia_id',$denuncia_id);
+        return $this->db->get('multimedias');
     }
 } // Fin del model denuncias_m.
