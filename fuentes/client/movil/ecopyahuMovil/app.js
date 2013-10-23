@@ -20,13 +20,20 @@ Ext.application({
     views: [
         'Main',
         'Mapa.Main',
-        'Denuncia.Camara'
+        'Denuncias.Camara'
     ],
     controllers: [
         'Main',
         'Mapa.Main'
     ],
-    stores:['ImageQueue'],
+    models: [
+        'Denuncias.Categorias'
+    ],
+    
+    stores: [
+        'ImageQueue', 
+        'Denuncias.Categorias'
+    ],
 
     icon: {
         '57': 'resources/icons/Icon.png',

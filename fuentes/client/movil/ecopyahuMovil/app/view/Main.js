@@ -41,19 +41,18 @@ Ext.define("ecopyahuMovil.view.Main", {
                 height: 200
             }]
         },{
-            xtype: 'fieldset',
-            title: 'Seleccione una subcategor\u00eda', 
-            items: [{
-                xtype: 'selectfield',
-                options: [
-                    {text: 'Contaminaci\u00f3n ambiental',  value: 'contaminacion_ambiental'},
-                    {text: 'Contaminaci\u00f3n sonora', value: 'contaminacion_sonora'},
-                    {text: 'Poluci\u00f3n visual',  value: 'polucion_visual'},
-                    {text: 'Espacios p\u00fablicos',  value: 'espacios_publicos'},
-                    {text: 'Animales sueltos',  value: 'animales_sueltos'},
-                    {text: 'Otros',  value: 'otros'}
-                ]
-            }]
+            xtype: 'selectfield',
+            labelAlign: 'top',
+            label: 'Seleccione una categor\u00eda', 
+            //store: 'Denuncias.Categorias'        
+            options: [
+                {text: 'Contaminaci\u00f3n ambiental',  value: 'contaminacion_ambiental'},
+                {text: 'Contaminaci\u00f3n sonora', value: 'contaminacion_sonora'},
+                {text: 'Poluci\u00f3n visual',  value: 'polucion_visual'},
+                {text: 'Espacios p\u00fablicos',  value: 'espacios_publicos'},
+                {text: 'Animales sueltos',  value: 'animales_sueltos'},
+                {text: 'Otros',  value: 'otros'}
+            ]
         },{
             /*
             xtype: 'textareafield',

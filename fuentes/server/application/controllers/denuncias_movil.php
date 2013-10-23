@@ -29,11 +29,10 @@ class denuncias_movil extends SMG_Controller{
      * @return void
      */
     public function index(){
-        
     }
     
     /**
-     * 
+     * Metodo publico que inserta una denuncia a la base de datos.
      */
     public function insertar_denuncia(){
         //$this->output->enable_profiler(true);
@@ -45,7 +44,7 @@ class denuncias_movil extends SMG_Controller{
         $v_latitud = $this->input->get('latitud', true);
         $v_longitud = $this->input->get('longitud', true);
         $v_descripcion = $this->input->get('descripcion', true);
-        $v_subcategoria = $this->input->get('subcategoria', true);
+        $v_categoria = $this->input->get('categoria', true);
         $v_fuente = $this->input->get('fuente', true);
 
         $v_data = array();
@@ -53,7 +52,8 @@ class denuncias_movil extends SMG_Controller{
         $data['denuncia_lat'] = $v_latitud;
         $data['denuncia_lon'] = $v_longitud;
         $data['denuncia_desc'] = $v_descripcion;
-        //$data['denuncia_lon'] = $v_subcategoria;
+        $data['clasificacion_id'] = 1;
+        //$data['clasificacion_id'] = $v_categoria;
         $data['denuncia_fuente'] = $v_fuente;
 
         $v_data['data'] = $data;
@@ -75,5 +75,55 @@ class denuncias_movil extends SMG_Controller{
         }		
         $v_data['success'] = true;
         $this->load->view('output',array('p_output' => $v_data));
+    }
+    
+    /**
+     * Metodo publico que devuelve todas las categorias.
+     */
+    public function getCategorias(){
+        $this->input->get('limit', true);
+	$this->input->get('offset', true);
+		
+ 	$v_categorias = $this->denuncias->get_categorias();
+	$v_data['cantidad_total'] = 0;
+	$v_data['resultado'] = false;
+		
+	if($v_categorias->num_rows() > 0 ){
+            $v_data['cantidad_total'] = $this->denuncias->get_cantidad_filas();
+            $v_data['resultado'] = true;
+            $v_data['data'] = $v_categorias->result();
+	}
+	$v_data['success'] = true;
+	echo json_encode($v_data);
+    }
+    
+    /**
+     * 
+     */
+    private function subirImagen(){
+	$v_data[] = array();
+			
+	$config['upload_path'] = './resources/user_upload/';
+	$config['allowed_types'] = 'gif|jpg|png';
+	$config['max_size']	= '1000';
+	//$config['max_width']  = '1024';
+	//$config['max_height']  = '768';
+	
+	$this->load->library('upload', $config);
+	
+	foreach($_FILES as $key => $value){	
+            if(!$this->upload->do_upload($key)){
+                //$error = array('error' => $this->upload->display_errors());			
+		//$this->load->view('upload_form', $error);
+		$v_data['errores'][] = $this->upload->display_errors();
+            }else{
+	         $upload_data = $this->upload->data();
+		 $this->clasificados->guardarImagen($this->input->post('clasificado_id', true), $upload_data['file_name'], 1);
+		 $_data['exito'] = true;
+		 //$v_data['imagenes'][] =  array('upload_data' => $upload_data);			
+		 //$this->load->view('upload_success', $data);
+            }
+	}
+	echo json_encode($v_data);	
     }
 } // Fin del controlador denuncias_movil.

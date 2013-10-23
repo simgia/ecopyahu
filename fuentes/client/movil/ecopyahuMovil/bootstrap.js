@@ -746,8 +746,10 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "ecopyahuMovil.controller.Main": [],
   "ecopyahuMovil.controller.Mapa.Main": [],
+  "ecopyahuMovil.model.Denuncias.Categorias": [],
+  "ecopyahuMovil.store.Denuncias.Categorias": [],
   "ecopyahuMovil.store.ImageQueue": [],
-  "ecopyahuMovil.view.Denuncia.Camara": [],
+  "ecopyahuMovil.view.Denuncias.Camara": [],
   "ecopyahuMovil.view.Main": [],
   "ecopyahuMovil.view.Mapa.Main": []
 });
@@ -1694,10 +1696,12 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.WindowsPhone": [],
   "ecopyahuMovil.controller.Main": [],
   "ecopyahuMovil.controller.Mapa.Main": [],
+  "ecopyahuMovil.model.Denuncias.Categorias": [],
+  "ecopyahuMovil.store.Denuncias.Categorias": [],
   "ecopyahuMovil.store.ImageQueue": [
     "widget.imagesqueue"
   ],
-  "ecopyahuMovil.view.Denuncia.Camara": [
+  "ecopyahuMovil.view.Denuncias.Camara": [
     "widget.capturarImagen"
   ],
   "ecopyahuMovil.view.Main": [
