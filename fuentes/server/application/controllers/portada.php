@@ -20,7 +20,15 @@ class portada extends SMG_Controller{
 	 */
 	public function index(){
 		$this->load->view('portada');
-	}	
+	}
+        
+                 /**
+	 * Metodo para mostrar la portada inicial
+	 * @return void
+	 */
+	public function denunciasMapa(){
+		$this->load->view('denuncias/lista_mapa');
+	}
         
         
         /**

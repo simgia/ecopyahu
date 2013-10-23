@@ -1,7 +1,7 @@
 <!--HEADER-->
 <header>
         <div id="logo">
-                <img src="images/logo.png" alt="">
+                <img src="<?php echo  base_url() ?>images/logo.png" alt="">
         </div>
         <nav>
                 <ul>
