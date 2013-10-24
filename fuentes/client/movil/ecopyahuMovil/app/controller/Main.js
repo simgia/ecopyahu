@@ -4,8 +4,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
         'Ext.device.Camera',
         'Ext.device.Connection',
         'Ext.data.JsonP',
-        'ecopyahuMovil.model.Categorias',
-        'ecopyahuMovil.store.Categorias',
+        'ecopyahuMovil.model.Denuncias.Categorias',
+        'ecopyahuMovil.store.Denuncias.Categorias',
         'Ext.data.proxy.JsonP'
     ],
 
@@ -53,7 +53,6 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var v_imagen = me.getImg();
         
         Ext.device.Camera.capture({
-            //success: this.onCaptureSuccess,
             success: fotoExitosa,
             scope: this,
             quality : 85,
@@ -84,69 +83,6 @@ Ext.define('ecopyahuMovil.controller.Main',{
         // Initialize the main view
        // Ext.Viewport.add(Ext.create('DenunciasCamara.view.Mapa.Main'));
     },
-    
-    onCaptureSuccess: function(uri) {
-        this.addLog('got foto:' + uri);
-        
-        var lostor = Ext.getStore('theImageQueue');
-        lostor.add({
-            src: uri,
-            timestamp: new Date().getTime(),
-            fails: 0        
-	});
-        lostor.sync();
-        this.addLog('after sync store has count:'+lostor.getRange().length);
-    },
-            
-    oneImageSuccess:function(){
-        var jso = Ext.JSON.decode(response);
-        
-        if(jso){
-            response = '<a href="'+jso[0].url+'">'+jso[0].url+'</a>';
-        }  
-        this.addLog('Uploaded file:'+response);
-        
-        var imstor = Ext.getStore('theImageQueue');
-        imstor.removeAt(0);
-        imstor.sync();
-        this.uploadNextImage();
-    },
-            
-    oneImageFail:function(msg){
-        this.addLog('We have failure:'+msg);
-        var imstor = Ext.getStore('theImageQueue');
-        var oneImg = imstor.getAt(0);
-        var failedTimes = Number(oneImg.get('fails'))+1;
-        
-        imstor.add(oneImg);
-        imstor.removeAt(0);
-        imstor.last().set('fails',failedTimes);
-        imstor.sync();// I could do a messier job than the above, but javascript still behaves mysteriously for me.
-        this.uploadNextImage();
-    },
-            
-    uploadNextImage: function(){
-        this.addLog('starting to upload next');
-        
-        var imstor = Ext.getStore('theImageQueue');
-        
-        if(!imstor.getRange().length){
-            this.setAreImagesUploading( false );
-            Ext.Msg.alert('Done', 'The file queue is empty.');
-            return;
-        }
-        var oneImg = imstor.getAt(0);
-        
-        if(oneImg.get('fails') > 2){
-            // If this image has failed more than 3 times: delete from queue
-            imstor.removeAt(0);
-            imstor.sync();
-            if (!imstor.getRange().length)return;
-            oneImg = imstor.getAt(0);
-        }
-        this.setAreImagesUploading( oneImg.get('timestamp') );
-        uploadPhoto( oneImg.get('src'), oneImg.get('timestamp') );
-    },
             
     hola: function(){
         // This is our true launch function
@@ -167,7 +103,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var este = ecopyahuMovil.app.getController('General');
         
         ecopyahuMovil.connectionType = checkConnection();
-        //este.addLog('...polling... '+ DenunciasCamara.connectionType+' with store count:'+ Ext.getStore('theImageQueue').getRange().length);
+        este.addLog('...polling... '+ DenunciasCamara.connectionType+' with store count:'+ Ext.getStore('theImageQueue').getRange().length);
         if(ecopyahuMovil.connectionType == 'WIFI' || ecopyahuMovil.connectionType == 'ETHERNET' ){//if we have wi-fi or ethernet
             este.addLog('we have WIFI');
             if(!este.getAreImagesUploading()){//and there aren't any images uploading already
@@ -238,8 +174,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
             //scope: this,
             success: function(p_response, p_options){
                 if(p_response.resultado == true){
-                    console.log("p_response", p_response);
-   
+                    var v_denuncia_id = p_response.denuncia_id;
                     var v_imagen = v_scope.getImg(); 
                     var v_imagen_url = v_imagen.getSrc();
                     var v_win = function(){
@@ -260,11 +195,11 @@ Ext.define('ecopyahuMovil.controller.Main',{
                     v_optiones_transferencia.fileName = v_imagen_url;
                     v_optiones_transferencia.mimeType = "image/jpg";											        
                     v_optiones_transferencia.params = {
-                        denuncia_id: 127
+                        denuncia_id: v_denuncia_id
                     };
                     var v_ft = new FileTransfer();
                     
-                    v_ft.upload(v_imagen_url, encodeURI('http://192.168.1.155/denuncias_movil/subirMultimedia'), v_win, v_fail, v_optiones_transferencia);
+                    v_ft.upload(v_imagen_url, encodeURI(v_scope.getApplication().app_url + 'denuncias_movil/subirMultimedia'), v_win, v_fail, v_optiones_transferencia);
 		}else{
 		     Ext.Msg.alert('Error', p_response.mensaje);
                 } 

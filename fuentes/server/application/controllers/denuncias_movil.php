@@ -19,7 +19,6 @@ class denuncias_movil extends SMG_Controller{
     public function __construct(){
         parent::__construct();
 	$this->load->helper('cookie');
-	//$this->load->library('form_validation');
 	$this->load->model('usuarios_m','usuarios');
 	$this->load->model('denuncias_m','denuncias');	
     }
@@ -52,19 +51,17 @@ class denuncias_movil extends SMG_Controller{
         $data['denuncia_lat'] = $v_latitud;
         $data['denuncia_lon'] = $v_longitud;
         $data['denuncia_desc'] = $v_descripcion;
-        $data['clasificacion_id'] = 1;
-        //$data['clasificacion_id'] = $v_categoria;
+        $data['clasificacion_id'] = $v_categoria;
         $data['denuncia_fuente'] = $v_fuente;
 
-        $v_data['data'] = $data;
-        
         $this->denuncias->db->trans_begin();
         
-        // Se guarda la denuncia en la base de datos.
-	$this->denuncias->insertar_denuncia($data);
+        // Se recupera el id de la denuncia recien creada.
+	$v_denuncia_id = $this->denuncias->insertar_denuncia($data);
         
         // Verifica si todo se guardo correctamente en la base de datos.
 	if($this->denuncias->db->trans_status() === true){
+            $v_data['denuncia_id'] = $v_denuncia_id;
             $v_data['resultado'] = true;
             $v_data['mensaje'] = 'Se ha enviado correctamente la denuncia';
             $this->denuncias->db->trans_commit();
@@ -117,7 +114,9 @@ class denuncias_movil extends SMG_Controller{
     }
     
     /**
-     * 
+     * @method subirMultimedia
+     * Metodo que sube el archivo multimedia. Tambien guarda en la base de
+     * datos lo que se subio.
      */
     public function subirMultimedia(){
 	$v_data[] = array();
@@ -141,7 +140,6 @@ class denuncias_movil extends SMG_Controller{
                      'multimedia_tipo' => 'img',
 		     'denuncia_id' => $this->input->post('denuncia_id', true)
                  );
-                 
 		 $this->denuncias->guardar_multimedia($data);
 		 $_data['exito'] = true;
             }

@@ -18,7 +18,7 @@ Ext.application({
         'Ext.device.Camera',
         'Ext.device.Connection',
         'Ext.data.JsonP',
-        'ecopyahuMovil.store.Categorias',
+        'ecopyahuMovil.store.Denuncias.Categorias',
         'Ext.data.proxy.JsonP',
         'Ext.field.Select'
     ],
@@ -33,7 +33,7 @@ Ext.application({
         'Mapa.Main'
     ],
     stores: [
-        'Categorias'
+        'Denuncias.Categorias'
     ],
     icon: {
         '57': 'resources/icons/Icon.png',
@@ -79,7 +79,7 @@ Ext.application({
 
 var oneReady = false;       // This is for checking who loaded first.
 
-function checkConnection() {
+function checkConnection(){
     if(!navigator.network){
         return 'UNKNOWN';
     }  
@@ -96,41 +96,7 @@ function checkConnection() {
     return states[networkState];
 }
 
-/************************* CORDOVA IMAGE UPLOAD CODE ************************************/
-function uploadPhoto(imageURI, ts) {
-    var options = new FileUploadOptions();
-    
-    options.fileKey = "files";//Notice that this should be tha same param value that the server should be expecting
-    options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
-    options.mimeType = "image/jpeg";
-
-    var params = new Object();
-    
-    params.timestamp = ts;//this is just data passed by me to be stores with the file.
-    options.params = params;
-    
-    var ft = new FileTransfer();
-    ft.upload(imageURI, encodeURI("http://m0.cl/t/miup/index.php"), win, fail, options);
-}
-
-function win(r) {
-    console.log("Upload Code = " + r.responseCode);
-    console.log("Upload Response = " + r.response);
-    console.log("Upload Sent = " + r.bytesSent);
-    ecopyahuMovil.app.getController('Main').oneImageSuccess(r.response);
-}
-
-function fail(error) {
-    alert("An error has occurred: Code = " + error.code);
-    console.log("Upload upload error source " + error.source);
-    console.log("Upload upload error target " + error.target);
-    ecopyahuMovil.app.getController('Main').oneImageFail(error.source);
-}
-
-/************************ END OF CORDOVA IMG UPLOAD *************************************/
-function onDeviceReady() {
-    //this is for checking if sencha has already started when cordova is ready
-    console.log('Cordova ta´ ready');
+function onDeviceReady(){
     if(oneReady){
         ecopyahuMovil.app.getController('Main').hola();
     }else{

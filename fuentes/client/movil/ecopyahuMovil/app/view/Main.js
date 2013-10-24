@@ -6,8 +6,8 @@ Ext.define("ecopyahuMovil.view.Main", {
         'Ext.Label',
         'Ext.Img',
         'Ext.ux.field.FullScreenTextArea',
-        'ecopyahuMovil.model.Categorias',
-        'ecopyahuMovil.store.Categorias'
+        'ecopyahuMovil.model.Denuncias.Categorias',
+        'ecopyahuMovil.store.Denuncias.Categorias'
     ],
     xtype: 'mainviewport',
     config: {
@@ -48,15 +48,15 @@ Ext.define("ecopyahuMovil.view.Main", {
             label: 'Seleccione una categor\u00eda', 
             displayField: 'categoria_nombre',
             valueField: 'categoria_id',
-            //store: Ext.create('ecopyahuMovil.store.Categorias'),
+            //store: Ext.create('ecopyahuMovil.store.Denuncias.Categorias'),
             //store: 'CategoriasID'
             options: [
-                {categoria_nombre: 'Contaminaci\u00f3n ambiental',  categoria_id: 'contaminacion_ambiental'},
-                {categoria_nombre: 'Contaminaci\u00f3n sonora', categoria_id: 'contaminacion_sonora'},
-                {categoria_nombre: 'Poluci\u00f3n visual',  categoria_id: 'polucion_visual'},
-                {categoria_nombre: 'Espacios p\u00fablicos',  categoria_id: 'espacios_publicos'},
-                {categoria_nombre: 'Animales sueltos',  categoria_id: 'animales_sueltos'},
-                {categoria_nombre: 'Otros',  categoria_id: 'otros'}
+                {categoria_nombre: 'Contaminaci\u00f3n ambiental',  categoria_id: 1},
+                {categoria_nombre: 'Contaminaci\u00f3n sonora', categoria_id: 2},
+                {categoria_nombre: 'Poluci\u00f3n visual',  categoria_id: 3},
+                {categoria_nombre: 'Espacios p\u00fablicos',  categoria_id: 4},
+                {categoria_nombre: 'Animales sueltos',  categoria_id: 5},
+                {categoria_nombre: 'Otros',  categoria_id: 6}
             ]
         },{
             /*
@@ -74,7 +74,6 @@ Ext.define("ecopyahuMovil.view.Main", {
         },{
             xtype: 'button',
             html: '<h3 style="color:#FFF">Enviar</h3>',
-            //text: 'Enviar',
             action: 'enviar_denuncia',
             ui: 'action rounded',
             height: 50,

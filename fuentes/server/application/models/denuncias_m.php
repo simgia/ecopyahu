@@ -47,16 +47,13 @@ class denuncias_m extends CI_Model{
     }
     
     /**
-    *
+     * Metodo publico que guarda un archivo multimedia.
+     * @method guardar_multimedia
+     * @param Array $p_datos
+     * @return type
      */
-    public function guardar_multimedia($denuncia_id,$file_name,$tipo, $descripcion){
-        $datos = array(
-            'denuncia_id'=>$denuncia_id,
-            'multimedia_file_name'=>$file_name,
-            'multimedia_tipo'=>$tipo,
-            'multimedia_desc'=>$descripcion,
-        );
-        return $this->db->insert('multimedias',$datos);
+    public function guardar_multimedia($p_datos){
+        return $this->db->insert('multimedias', $p_datos);
     }
     
     public  function get_multimedias($denuncia_id){
