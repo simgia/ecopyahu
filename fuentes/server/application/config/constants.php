@@ -36,6 +36,30 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+/**
+ * Variable que guarda el nombre del estado logueado
+ * @var string
+ */
+define('LOGGED', 'logged');
+/**
+ * Estado activo
+ * @var string
+*/
+define('E_ACTIVO','activo');
+/* End of file constants.php */
+/**
+ * Nombre de la variable de vida de session
+ * @var string
+*/
+define('SESSION_LIVE','session_live');
+
+define('SYSTEM_NAME','Ecopyahu');
+define('SYSTEM_SHORT_NAME','Ecopyahu');
+
+define('EMAIL_ADDRESS','ecopyhu@simgia.com');
+define('EMAIL_ADDRES_NAME','Ecopyahu');
+
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

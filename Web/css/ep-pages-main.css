@@ -1,0 +1,89 @@
+body {
+	background: url(../images/bg.png);
+	font-family: Helvetica, sans-serif;
+}
+
+div[id^="content"] {
+	background: url(../images/bg-top.png) scroll left top transparent;
+	border-radius: .5em;
+	margin: 1em;
+}
+
+
+/************************************************************************
+****************************** HEADER ***********************************
+*************************************************************************/
+header {
+	border-radius: .5em .5em 0 0;
+	background: #437345;
+	margin-top: 0;
+}
+
+div#logo,
+nav {
+	display: inline-block;
+	vertical-align: middle;
+	width: 48%;
+}
+
+div#logo img {
+	max-width: 60%;
+}
+
+div#logo:hover {
+	cursor: pointer;
+	filter: alpha(opacity=8);/*para IE*/
+	opacity: .8;	
+	transition: all 0.5s ease-in;
+	-ms-transition: all 0.5s ease-in;
+	-moz-transition: all 0.5s ease-in;
+	-o-transition: all 0.5s ease-in;
+	-webkit-transition: all 0.5s ease-in;
+}
+
+nav {
+	text-align: right;
+}
+
+nav ul {
+	list-style: none;
+}
+
+nav ul li {
+	display: inline-block;
+	padding-right: 1em;
+}
+
+nav ul li a {	
+	color: #FFF;
+	font-size: 20px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+nav ul li a:hover {	
+	color: #DDD;
+}
+
+
+div#mapa iframe {
+	overflow: hidden;
+}
+
+/************************************************************************************
+*********************************** CLASES ******************************************
+************************************************************************************/
+.btn {
+	border: .1em solid #09B8F7;
+	border-radius: .5em 0;
+	padding: .5em .7em;
+}
+
+.btn:hover {
+	border: .1em dashed #3C0707;
+	border-radius: 0 .5em;
+	-moz-transition: all 0.5s ease-in;
+	-o-transition: all 0.5s ease-in;
+	-webkit-transition: all 0.5s ease-in;
+	transition: all 0.5s ease-in;
+}
