@@ -5,7 +5,9 @@ Ext.define("ecopyahuMovil.view.Main", {
         'Ext.Button',
         'Ext.Label',
         'Ext.Img',
-        'Ext.ux.field.FullScreenTextArea'
+        'Ext.ux.field.FullScreenTextArea',
+        'ecopyahuMovil.model.Categorias',
+        'ecopyahuMovil.store.Categorias'
     ],
     xtype: 'mainviewport',
     config: {
@@ -38,20 +40,23 @@ Ext.define("ecopyahuMovil.view.Main", {
             items: [{
                 xtype : 'image',
                 itemId: 'img',
-                height: 200
-            }]
+                height: 200       
+            }]  
         },{
             xtype: 'selectfield',
             labelAlign: 'top',
             label: 'Seleccione una categor\u00eda', 
-            //store: 'Denuncias.Categorias'        
+            displayField: 'categoria_nombre',
+            valueField: 'categoria_id',
+            //store: Ext.create('ecopyahuMovil.store.Categorias'),
+            //store: 'CategoriasID'
             options: [
-                {text: 'Contaminaci\u00f3n ambiental',  value: 'contaminacion_ambiental'},
-                {text: 'Contaminaci\u00f3n sonora', value: 'contaminacion_sonora'},
-                {text: 'Poluci\u00f3n visual',  value: 'polucion_visual'},
-                {text: 'Espacios p\u00fablicos',  value: 'espacios_publicos'},
-                {text: 'Animales sueltos',  value: 'animales_sueltos'},
-                {text: 'Otros',  value: 'otros'}
+                {categoria_nombre: 'Contaminaci\u00f3n ambiental',  categoria_id: 'contaminacion_ambiental'},
+                {categoria_nombre: 'Contaminaci\u00f3n sonora', categoria_id: 'contaminacion_sonora'},
+                {categoria_nombre: 'Poluci\u00f3n visual',  categoria_id: 'polucion_visual'},
+                {categoria_nombre: 'Espacios p\u00fablicos',  categoria_id: 'espacios_publicos'},
+                {categoria_nombre: 'Animales sueltos',  categoria_id: 'animales_sueltos'},
+                {categoria_nombre: 'Otros',  categoria_id: 'otros'}
             ]
         },{
             /*

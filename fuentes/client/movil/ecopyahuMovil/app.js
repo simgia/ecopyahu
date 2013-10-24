@@ -9,12 +9,18 @@
     changes and its generated code, it will produce a "merge conflict" that you
     will need to resolve manually.
 */
-
+var app_url = 'http://192.168.1.155/';
 Ext.application({
     name: 'ecopyahuMovil',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'Ext.device.Camera',
+        'Ext.device.Connection',
+        'Ext.data.JsonP',
+        'ecopyahuMovil.store.Categorias',
+        'Ext.data.proxy.JsonP',
+        'Ext.field.Select'
     ],
 
     views: [
@@ -26,15 +32,9 @@ Ext.application({
         'Main',
         'Mapa.Main'
     ],
-    models: [
-        'Denuncias.Categorias'
-    ],
-    
     stores: [
-        'ImageQueue', 
-        'Denuncias.Categorias'
+        'Categorias'
     ],
-
     icon: {
         '57': 'resources/icons/Icon.png',
         '72': 'resources/icons/Icon~ipad.png',
@@ -43,6 +43,8 @@ Ext.application({
     },
 
     isIconPrecomposed: true,
+    
+    app_url: app_url,
 
     startupImage: {
         '320x460': 'resources/startup/320x460.jpg',

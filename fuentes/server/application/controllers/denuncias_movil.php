@@ -66,15 +66,26 @@ class denuncias_movil extends SMG_Controller{
         // Verifica si todo se guardo correctamente en la base de datos.
 	if($this->denuncias->db->trans_status() === true){
             $v_data['resultado'] = true;
-            $v_data['mensaje'] = 'Exito al guardar la denuncia';
+            $v_data['mensaje'] = 'Se ha enviado correctamente la denuncia';
             $this->denuncias->db->trans_commit();
 	}else{
              $v_data['resultado'] = false;
-             $v_data['mensaje']  = 'Error al insertar denuncia';
+             $v_data['mensaje']  = 'No se pudo enviar la denuncia';
              $this->denuncias->db->trans_rollback();
         }		
         $v_data['success'] = true;
-        $this->load->view('output',array('p_output' => $v_data));
+        
+        
+        $v_callback = $_GET['callback'];
+        if(isset($v_callback)){
+            header('Content-Type: text/javascript; charset=utf-8');
+            $v_result = $v_callback . '(' . json_encode($v_data) . ');';
+        }else{  
+             // send json encoded response
+             header('Content-Type: application/x-json; charset=utf-8');
+             $v_result = json_encode($v_data);
+        }
+        echo $v_result; 
     }
     
     /**
@@ -94,13 +105,21 @@ class denuncias_movil extends SMG_Controller{
             $v_data['data'] = $v_categorias->result();
 	}
 	$v_data['success'] = true;
-	echo json_encode($v_data);
+        
+        $v_callback = $_GET['callback'];
+        if($v_callback){
+            header('Content-Type: text/javascript; charset=utf-8');
+            echo $v_callback . '(' . json_encode($v_data) . ');';
+        }else{
+             header('Content-Type: application/x-json');
+             echo json_encode($v_data);
+        }
     }
     
     /**
      * 
      */
-    private function subirImagen(){
+    public function subirMultimedia(){
 	$v_data[] = array();
 			
 	$config['upload_path'] = './resources/user_upload/';
@@ -113,15 +132,18 @@ class denuncias_movil extends SMG_Controller{
 	
 	foreach($_FILES as $key => $value){	
             if(!$this->upload->do_upload($key)){
-                //$error = array('error' => $this->upload->display_errors());			
-		//$this->load->view('upload_form', $error);
 		$v_data['errores'][] = $this->upload->display_errors();
             }else{
 	         $upload_data = $this->upload->data();
-		 $this->clasificados->guardarImagen($this->input->post('clasificado_id', true), $upload_data['file_name'], 1);
+                 
+                 $data = array(
+                     'multimedia_file_name' => $upload_data['file_name'],
+                     'multimedia_tipo' => 'img',
+		     'denuncia_id' => $this->input->post('denuncia_id', true)
+                 );
+                 
+		 $this->denuncias->guardar_multimedia($data);
 		 $_data['exito'] = true;
-		 //$v_data['imagenes'][] =  array('upload_data' => $upload_data);			
-		 //$this->load->view('upload_success', $data);
             }
 	}
 	echo json_encode($v_data);	

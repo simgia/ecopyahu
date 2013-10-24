@@ -2,8 +2,13 @@ Ext.define('ecopyahuMovil.controller.Main',{
     extend: 'Ext.app.Controller',
     requires: [
         'Ext.device.Camera',
-        'Ext.device.Connection'
+        'Ext.device.Connection',
+        'Ext.data.JsonP',
+        'ecopyahuMovil.model.Categorias',
+        'ecopyahuMovil.store.Categorias',
+        'Ext.data.proxy.JsonP'
     ],
+
     /**
      * Se guarda la latitud actual.
      */ 
@@ -55,13 +60,14 @@ Ext.define('ecopyahuMovil.controller.Main',{
             /*width: 200,
             height: 200,*/
             source: 'camera',
-            destination: 'data'
+           // destination: 'data'
+            destinationType: 'file'
         });
         
         function fotoExitosa(p_imagen) {
             // Se obtiene la ruta de la imagen.
-            var v_ruta_imagen = 'data:image/jpeg;base64,'.concat(p_imagen);
-            
+            var v_ruta_imagen = p_imagen;
+ 
             v_imagen.setSrc(v_ruta_imagen);
 
             //hide delete button
@@ -210,6 +216,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que envia una denuncia al servidor.
      */
     enviarDenuncia: function(){
+        console.log("v_scope", this);
         var v_scope = this;
         var v_formulario = v_scope.getPrincipal();
         var v_categoria = v_formulario.down('selectfield');
@@ -219,40 +226,69 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var v_latitud = v_scope.latitud;
         var v_longitud = v_scope.longitud;
         
-        // Se obtiene la referencia de la imagen.
-        var v_imagen = v_scope.getImg();
-        
-        Ext.Ajax.request({
-            //url: 'http://ecopyahu/denuncias_movil/insertar_denuncia',
-            url: 'http://192.168.1.152/denuncias_movil/insertar_denuncia',
-            method: 'GET',
+        Ext.data.JsonP.request({
+            url: v_scope.getApplication().app_url + 'denuncias_movil/insertar_denuncia',
             params: {
-               latitud: v_latitud,
-               longitud: v_longitud,
-               descripcion: v_denuncia_descripcion.getValue(),
-               categoria: v_categoria.getValue(),
-               fuente: 'movil'
-               //imagen: Ext.encode(v_imagen)
+                latitud: v_latitud,
+                longitud: v_longitud,
+                descripcion: v_denuncia_descripcion.getValue(),
+                categoria: v_categoria.getValue(),
+                fuente: 'movil'
             },
             //scope: this,
             success: function(p_response, p_options){
-                var v_respuesta = Ext.JSON.decode(p_response.responseText);
-		
-                console.log("v_respuesta", v_respuesta);
-                
-                if(v_respuesta.resultado == true){
-                    Ext.Msg.alert('Exito','Se ha enviado correctamente la denuncia');
+                if(p_response.resultado == true){
+                    console.log("p_response", p_response);
+   
+                    var v_imagen = v_scope.getImg(); 
+                    var v_imagen_url = v_imagen.getSrc();
+                    var v_win = function(){
+                        Ext.Msg.alert('Exito', p_response.mensaje);
+                    };
+                    var v_fail = function(p_error){
+                        //<debug>
+                        console.log("An error has occurred: Code = " + p_error.code);
+                        console.log("upload error source " + p_error.source);
+                        console.log("upload error target " + p_error.target);
+                        //</debug>
+                        Ext.Msg.alert('Error','Codigo: '+ p_error.code);
+                    };
+                    var v_optiones_transferencia = new FileUploadOptions();
+
+                    // Subida de archivos usando Cordova.
+                    v_optiones_transferencia.fileKey = 'archivo_1';
+                    v_optiones_transferencia.fileName = v_imagen_url;
+                    v_optiones_transferencia.mimeType = "image/jpg";											        
+                    v_optiones_transferencia.params = {
+                        denuncia_id: 127
+                    };
+                    var v_ft = new FileTransfer();
+                    
+                    v_ft.upload(v_imagen_url, encodeURI('http://192.168.1.155/denuncias_movil/subirMultimedia'), v_win, v_fail, v_optiones_transferencia);
 		}else{
-		     Ext.Msg.alert('Error','No se pudo enviar la denuncia');
+		     Ext.Msg.alert('Error', p_response.mensaje);
                 } 
+                // Se limpia el formulario.
+                v_scope.limpiarFormulario();
             },
             failure: function(){
                 //<debug>
-                Ext.Msg.alert('Exito', 'Error en ajax');
+                Ext.Msg.alert('Exito', 'Error en JsonP');
                 console.log('Error en ajax');
 		console.log(arguments);
 		//</debug>			
             }
         });
+    },
+    
+    /**
+     * Metodo publico que limpia el formulario.
+     */
+    limpiarFormulario: function(){
+        var v_scope = this;
+        var v_formulario = v_scope.getPrincipal();
+
+        // Limpia el formulario.
+        v_formulario.reset(); 
     }
 });
