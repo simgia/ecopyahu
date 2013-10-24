@@ -36,28 +36,35 @@ class denuncias_m extends CI_Model{
 	return $this->db->get('categorias c');
     }	
     
-    /**
-     * Metodo publico que devuelve la cantidad de filas de la ultima consulta.
-     * @method get_cantidad_filas
-     * @return int
+    /** 
+     * Recupera la lista de denuncias del sistema.
+     * @param integer $p_limit
+     * @param integer $p_offset
+     * @param object $v_sort
+     * @return array[object]
      */
-    public function get_cantidad_filas(){
-        $v_query = $this->db->query('select found_rows() as cant');
-	return $v_query->row()->cant;
-    }
+    public function get_lista_denuncias($p_limit = 100, $p_offset = 0, $p_sort = null){
+        $this->db->select("sql_calc_found_rows d.*", false);
+	if($p_sort != null){
+            foreach($p_sort as $sort){
+                $this->db->order_by($sort->property,$sort->direction);
+            }
+	}
+        //$this->db->order_by("denuncia_id", "asc");
+	$this->db->where('denuncia_estado', 'activo');
+	//return $this->db->get('denuncias d', $p_limit, $p_offset);
+        return $this->db->get('denuncias d');
+    } // Fin de la funcion publica get_lista_denuncias.
     
     /**
-     * Metodo publico que guarda un archivo multimedia.
-     * @method guardar_multimedia
-     * @param Array $p_datos
+     * 
+     * @param int $p_denuncia
      * @return type
      */
-    public function guardar_multimedia($p_datos){
-        return $this->db->insert('multimedias', $p_datos);
-    }
-    
-    public  function get_multimedias($denuncia_id){
-        $this->db->where('denuncia_id',$denuncia_id);
-        return $this->db->get('multimedias');
-    }
+    public function get_denuncia($p_denuncia_id){
+        $this->db->select("sql_calc_found_rows d.*", false);
+        $this->db->where('denuncia_id', $p_denuncia);
+	$this->db->where('denuncia_estado', 'activo');
+        return $this->db->get('denuncias d');
+    } // Fin de la funcion publica get_denuncia.    
 } // Fin del model denuncias_m.

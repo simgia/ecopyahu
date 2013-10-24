@@ -21,6 +21,7 @@ class denuncias_movil extends SMG_Controller{
 	$this->load->helper('cookie');
 	$this->load->model('usuarios_m','usuarios');
 	$this->load->model('denuncias_m','denuncias');	
+        $this->load->model('multimedias_m','multimedias');	
     }
 	
     /**
@@ -140,7 +141,7 @@ class denuncias_movil extends SMG_Controller{
                      'multimedia_tipo' => 'img',
 		     'denuncia_id' => $this->input->post('denuncia_id', true)
                  );
-		 $this->denuncias->guardar_multimedia($data);
+		 $this->multimedias->guardar_multimedia($data);
 		 $_data['exito'] = true;
             }
 	}

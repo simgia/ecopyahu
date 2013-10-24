@@ -1,24 +1,251 @@
 <?php 
 $this->load->view('comunes/cabecera');
 ?>
-<!--CUERPO-->
-<body>		
-    <div id="content-denunciar">		
+<head>
+    <link rel="stylesheet" href="<?php echo base_url() ?>js/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+    <script src="<?php echo base_url() ?>js/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <style type="text/css">
+        /*
+         * Para la Atribucion del Mapa. En este caso a OpenStreetMap 
+         * Y Para la Linea de Escala.
+         */
+        div.olControlAttribution, div.olControlScaleLine {
+            font-family: Verdana;
+            font-size: 0.7em;
+            bottom: 3px;
+        }
+        
+        /*
+         * Para la Posicion del Mouse en el Mapa.
+         */
+        div.olControlMousePosition {
+            position: absolute;
+            right: 10px;
+            top: 515px;
+            height: 15px;
+            font-size: 8pt;
+            background-color: white
+        }
+        
+        /*
+        .olControlAttribution {
+            bottom: 5px;
+            font-size: 9px;
+        }
+        */
+        #customZoom {
+            z-index: 1001;
+            position: relative;
+            top: 10px;
+            left: 10px;
+        }
+        #customZoom a {
+            text-decoration: none;
+            position: absolute;
+            display: block;
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            background: #369;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        #customZoom a:hover {
+            background: #036;
+        }
+        #customZoomOut {
+            top: 25px;
+        }    
+    </style>
+    <script type="text/javascript">
+    	//Objetos
+    	var scope = this;
+    	var v_mapa;				// Mapa.
+    	var v_layer_osm;			// El layer OSM.
+    	var v_layer_marcador;			// El layer marcador
+    	var v_tamanio;				// Tamanio del icono.
+    	var v_icono;				// El icono del marcador.
+    	var v_offset;
+    	var v_popup = null;
+        
+    	function inicializar(){
+            // Proyecciones
+            var v_fromProjection = new OpenLayers.Projection("EPSG:4326"); 			// Transformar from WGS 1984
+            var v_toProjection = new OpenLayers.Projection("EPSG:900913");			// a Spherical Mercator Projection.
+    		
+            // Dimensiones del mapa. 
+            var v_extension = new OpenLayers.Bounds(-57.5936300, -25.3309900, -57.5692900, -25.3078300).transform(v_fromProjection, v_toProjection);
+    		
+            // El objeto mapa.
+            v_mapa = new OpenLayers.Map('mapa', {
+                maxExtent : v_extension,
+        	units: 'm',
+    		projection: v_toProjection,
+    		displayProjection: v_fromProjection,
+            	controls: [
+                    new OpenLayers.Control.Navigation({                                 // Navegar por el mapa.
+            	        dragPanOptions: {
+            	            enableKinetic: true
+            	        }
+            	    }),			
+                    //new OpenLayers.Control.LayerSwitcher({'ascending': false}),       // Para cambiar los diferentes layers e mostrar el nombre de cada uno.
+                    new OpenLayers.Control.ScaleLine(),					// La escala utilizada en el mapa.
+                    new OpenLayers.Control.MousePosition(),				// Muestra la latitud y longitud de la posicion del mouse sobre el mapa.
+                    new OpenLayers.Control.KeyboardDefaults(),				// Mover el mapa con el teclado.
+                    new OpenLayers.Control.Attribution(),				// Atribucion a OpenStreetMap
+                    new OpenLayers.Control.Zoom()                                       // Control de flecha y zoom.    
+                ]
+            }); 
+            // Crear layer OSM.
+            var v_arrayOSM = [
+                 "http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                 "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                 "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                 "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"];
+            var v_layer_osm = new OpenLayers.Layer.OSM('osm', v_arrayOSM);
+	
+            // Agregar el layer OSM al mapa.
+            v_mapa.addLayer(v_layer_osm);
+        	
+            // Se instancia el layer Markers.
+            v_layer_marcador = new OpenLayers.Layer.Markers( "Denuncias" );
+        	
+            // Agregar el layer marcador al mapa.
+            v_mapa.addLayer(v_layer_marcador);
+           	
+            v_tamanio = new OpenLayers.Size(21, 25);
+            v_offset = new OpenLayers.Pixel(-(v_tamanio.w / 2), -v_tamanio.h);
+           
+            // Iconos de los marcadores.
+            v_icono_denuncia_unica = new OpenLayers.Icon('<?php echo base_url() ?>js/OpenLayers-2.13.1/img/marker-gold.png', v_tamanio, v_offset);
+            v_icono_denuncias_varias = new OpenLayers.Icon('<?php echo base_url() ?>js/OpenLayers-2.13.1/img/marker.png', v_tamanio, v_offset);
             
-            <?php $this->load->view('comunes/menu')?>
-
+            // Se agrega un marcador en el Layer de marcadores.
+            <?php
+            	$primer_punto = false; 
+            	$promedio_lat = 0;
+            	$promedio_long = 0;
+            	$cant = 0;
+            	foreach($puntos as $punto){
+                    $cant++;
+                    $promedio_lat += $punto->latitud;
+                    $promedio_long += $punto->longitud;
+                    if($primer_punto == false){ 
+            		if($punto->cantidad == 1){		
+            ?>
+                            v_marcador = new OpenLayers.Marker(new OpenLayers.LonLat(<?php echo $punto->longitud; ?>, <?php echo $punto->latitud; ?>).transform(
+                                v_fromProjection, 				// Transformar from WGS 1984
+    				v_toProjection 					// a Spherical Mercator Projection.
+                            ), v_icono_denuncia_unica);
+            <?php
+			}else{
+			?>
+                             v_marcador = new OpenLayers.Marker(new OpenLayers.LonLat(<?php echo $punto->longitud; ?>, <?php echo $punto->latitud; ?>).transform(
+                                v_fromProjection, 				// Transformar from WGS 1984
+	            		v_toProjection 					// a Spherical Mercator Projection.
+                             ), v_icono_denuncias_varias);
+			<?php
+                        } // Fin del else.
+            		$primer_punto = true; 
+            	}else{
+            	     if($punto->cantidad == 1){		
+           ?>
+		         // Se agrega otro marcador en el Layer de marcadores.
+		         v_marcador = new OpenLayers.Marker(new OpenLayers.LonLat(<?php echo $punto->longitud; ?>, <?php echo $punto->latitud; ?>).transform(
+                            v_fromProjection, 					// Transformar from WGS 1984
+                            v_toProjection 					// a Spherical Mercator Projection.
+                         ), v_icono_denuncia_unica.clone()); 
+           <?php 
+                    }else{
+		   ?>
+		         v_marcador = new OpenLayers.Marker(new OpenLayers.LonLat(<?php echo $punto->longitud; ?>, <?php echo $punto->latitud; ?>).transform(
+       			     v_fromProjection, 					// Transformar from WGS 1984
+                             v_toProjection 					// a Spherical Mercator Projection.
+   			 ), v_icono_denuncias_varias.clone());
+		   <?php
+                    }// Fin del else.
+            	}// Fin del else.
+           ?>
+           	v_marcador.events.register('click', v_marcador, function(evt) {
+                    if(v_popup == null){
+                        v_popup = new OpenLayers.Popup("Denuncias",
+                            new OpenLayers.LonLat(<?php echo $punto->longitud; ?>, <?php echo $punto->latitud; ?>).transform(
+		                v_fromProjection, 					// Transformar from WGS 1984
+		            	v_toProjection 						// a Spherical Mercator Projection.
+		            ),
+		            <?php
+		            	if($punto->cantidad == 1){
+		            ?>
+                                    new OpenLayers.Size(220, 40),
+		            	<?php
+		            	}else{
+		            	?>
+		            	     new OpenLayers.Size(150, 130),
+                                <?php
+		            	}
+		            	?>
+	           	        "<?php 
+	           	        	if($punto->cantidad == 1){
+                                            $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->id_denuncia);
+	           	        	    //echo "<br>La denuncia es: <a href='".$v_url."' target='_blank' >" . $punto->denuncia_id . '</a><b> ' . $punto->estado . '</b>';
+	           	        	}else{
+	           	        	     echo '<br>Las denuncias son: <ul>';
+	           	        	     for($i = 0; $i < count($punto->denuncias); $i++){
+                                                 $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->denuncias[$i]->denuncia_id);
+	           	        		 //echo "<li><a target='_blank' href='".$v_url."'>".$punto->denuncias[$i]->id_denuncia."</a><b> ".$punto->denuncias[$i]->estado."</b></li>";
+                                             }
+                                             echo '</ul>';
+	           	        	}
+                                ?>
+	           	        ",
+	           	        true,
+				function(){
+                                    v_mapa.removePopup(v_popup);
+                                    v_popup.destroy();
+                                    v_popup = null;
+	           	        }
+	           	    );
+	            	    v_popup.setBackgroundColor("white");
+	            	    v_popup.setBorder("1px solid #CCCCCC");
+	            	    v_mapa.addPopup(v_popup);
+           		}else{
+           		     v_popup.destroy();
+           		     v_popup = null;
+                             //v_popup.toggle();
+                	}
+               		OpenLayers.Event.stop(evt);
+           		}); // Fin del evento click del v_marcador.
+           		v_layer_marcador.addMarker(v_marcador); 
+           <?php
+            	}//end foreach
+            	if($cant == 0){ 
+                    // Control de que no hay nada que haya pasado por el foreach.
+                    $cant++;
+                    $promedio_long = -57.58146;
+                    $promedio_lat  = -25.31941;
+            	}
+            ?>
+            // Posicionar para la primera visualizacion el mapa en una latitud y longitud elegida.
+            v_mapa.setCenter(new OpenLayers.LonLat(<?php echo $promedio_long/$cant?>, <?php echo $promedio_lat/$cant?>) 	// Centrar el mapa.
+                .transform(
+                    v_fromProjection, 					// Transformar from WGS 1984
+                    v_toProjection 					// a Spherical Mercator Projection.
+                ), 13 							// Nivel de zoom
+            ); 
+        } // Fin de la funcion inicializar.
+	</script>
+</head>
+<!--CUERPO-->
+<body onload='inicializar();'>		
+    <div id="content-denunciar">		
+        <?php $this->load->view('comunes/menu')?>
             <h2>Realizar la denuncia</h2>
-
-
-                    <div id="mapa">
-                            <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-57.618248462677%2C-25.30999233427183%2C-57.61333465576172%2C-25.30738328763991&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/>
-                    </div>
-
-
-
-
-            <br />
-            <br />
+            <br/>
+            <br/>
+            <center>
+                <div id="mapa" style="width: 960px; height: 550px;"></div>
+            </center>
     </div>
 <!--CUERPO-->
 <?php $this->load->view('comunes/pie')?>

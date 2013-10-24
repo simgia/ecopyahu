@@ -39,7 +39,7 @@
 */
 
 
-$route['default_controller'] = "portada";
+$route['default_controller'] = "denuncias";
 $route['404_override'] = '';
 
 
