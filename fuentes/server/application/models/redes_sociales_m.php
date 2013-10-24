@@ -36,8 +36,8 @@ class redes_sociales_m extends CI_Model{
                     $lat = null;
                     $lon = null;
                     if(isset($tweet->coordinates)){
-                        $lat = $tweet->coordinates->coordinates[0];
-                        $lon = $tweet->coordinates->coordinates[1];
+                        $lat = $tweet->coordinates->coordinates[1];
+                        $lon = $tweet->coordinates->coordinates[0];
                     }
                     $data = array(
                         'denuncia_desc'=>$tweet->text,

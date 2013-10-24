@@ -42,4 +42,20 @@ class multimedias_m extends CI_Model{
         $this->db->where('denuncia_id', $p_denuncia_id);
         return $this->db->get('multimedias');
     }
+    
+     /**
+     * Metodo publico que devuelve el path y el nombre del archivo multimedia para una denuncia por medio del ws
+     * @method get_multimedias
+     * @param int $p_denuncia_id
+     * @return type
+     */
+    public function get_multimedias_ws($p_denuncia_id){
+        $this->db->select('concat("'.base_url().TW_IMG_PATH.'", multimedia_file_name) as multimedia_url',false);
+        $this->db->where('denuncia_id', $p_denuncia_id);
+        $r = $this->db->get('multimedias');
+        if($r->num_rows()>0)
+            return $r->result();
+        else
+            return false;   
+    }
 } // Fin del model denuncias_m.

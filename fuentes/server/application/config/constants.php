@@ -59,6 +59,13 @@ define('SYSTEM_SHORT_NAME','Ecopyahu');
 define('EMAIL_ADDRESS','ecopyhu@simgia.com');
 define('EMAIL_ADDRES_NAME','Ecopyahu');
 
+/*
+ * constantes para multimedias
+ */
+
+define('TW_IMG_PATH','media/imagen/twitter/');
+define('TW_VIDEO_PATH','media/video/twitter/');
+
 
 
 /* End of file constants.php */

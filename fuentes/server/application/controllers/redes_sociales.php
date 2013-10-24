@@ -20,8 +20,8 @@ class redes_sociales extends CI_Controller{
                  private $tw_url_post = 'https://api.twitter.com/1.1/statuses/update.json';
                 
                 
-                private $tw_img_path = 'media/imagen/twitter/';
-                private $tw_video_path = 'media/video/twitter/';
+                private $tw_img_path = TW_IMG_PATH;
+                private $tw_video_path = TW_VIDEO_PATH;
    	
                 /**
 	 * Constructor donde levanta las librerias:

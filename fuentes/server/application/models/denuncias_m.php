@@ -72,10 +72,10 @@ class denuncias_m extends CI_Model{
      * lista de denuncias que va ser consumido por el webservice
      */
     public function get_denuncias_ws($cantidad,$offset,$orden){
-           $this->db->select('sql_calc_found_rows denuncia_id, denuncia_desc, denuncia_fecha, denunica_lat, denuncia_lon, denuncia_fuente, denuncia_ext_id, categoria_nombre');
+           $this->db->select('sql_calc_found_rows d.denuncia_id, d.denuncia_desc, d.denuncia_fecha, d.denuncia_lat, d.denuncia_lon, d.denuncia_fuente, d.denuncia_ext_id, c.categoria_nombre',false);
            $this->db->order_by('denuncia_fecha', $orden);
-           $this->db->join('categorias c','c.categoria_id = d.categoria_id');
-           $this->db->get('denuncias d',$cantidad, $offset);
+           $this->db->join('categorias c','c.categoria_id = d.categoria_id','left');
+           return $this->db->get('denuncias d',$cantidad, $offset);
     }
     
     /**

@@ -12,11 +12,18 @@ class ws extends CI_Controller{
 	public function __construct(){
                     parent::__construct();
                     $this->load->model('denuncias_m','denuncias');
+                    $this->load->model('multimedias_m','multimedias');
 	}
         
                 public function index(){
                     
                 }
+                
+                /*
+                 * lista de denuncias
+                 * 
+                 *  ej: http://ecopyahu/ws/getDenuncias?cant=2&ord=asc&pag=1
+                 */
                 
                 public function getDenuncias(){
                     $cantidad = $this->input->get('cant',true);
@@ -33,14 +40,20 @@ class ws extends CI_Controller{
                     
                     $offset = $pagina * $cantidad - $cantidad;
                     
-                    $denuncias = $this->denuncias->get_denuncias_ws($cantidad,$offset,$orden);
+                    $denuncias = $this->denuncias->get_denuncias_ws($cantidad,$offset,$orden)->result();
+                    //echo $this->db->last_query();
+                    $cantidad_total = $this->denuncias->get_cantidad_resultados();
                     
-                   /* foreach($denuncias as $denuncia){
-                    $multimedias = $this->multimedias->get_multimedias($denuncia->denuncia_id)->result();
-                        $denuncia['multimedias'] = $multimedias;
-                    }*/
                     
-                    echo json_encode($denuncias);
+                    
+                    foreach($denuncias as $denuncia){
+                        $multimedias = $this->multimedias->get_multimedias_ws($denuncia->denuncia_id);
+                        $denuncia->multimedias = $multimedias;
+                    }
+                    
+                    $datos = array('denuncias'=>$denuncias,'cantidad_total'=>$cantidad_total);
+                    print_r($datos);
+                   // echo json_encode($datos);
                     
                 }
     
