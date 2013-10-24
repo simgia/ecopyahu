@@ -230,11 +230,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-<<<<<<< HEAD
 $config['encryption_key'] = '!#%!$#%@#encrypted%#%$^@$';
-=======
-$config['encryption_key'] = 'ecopyahu';
->>>>>>> a957377642a9649becb7aa20f59607fe0b63f4ca
 
 /*
 |--------------------------------------------------------------------------
@@ -254,19 +250,12 @@ $config['encryption_key'] = 'ecopyahu';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-<<<<<<< HEAD
-$config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 86400;
-$config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
-=======
+
 $config['sess_cookie_name']		= 'ecopyahu';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= true;
 $config['sess_encrypt_cookie']	= true;
 $config['sess_use_database']	= true;
->>>>>>> a957377642a9649becb7aa20f59607fe0b63f4ca
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= true;
 $config['sess_match_useragent']	= TRUE;
