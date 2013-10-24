@@ -10,12 +10,14 @@ class redes_sociales extends CI_Controller{
                 
                 private $tw_query = '?q=#ecopyahu';
                 private $tw_settings = array(
-			    'oauth_access_token' => "1029593413-BsySFq1wdMtPC80pfxngUattESM3eBVgp2PUGI4",
-			    'oauth_access_token_secret' => "G5obXx1sjywGNXETKIGRnAtSEezT5d7P6YrnujhlBg",
-			    'consumer_key' => "JoGeQHHrKFKO60pY2uHA",
-			    'consumer_secret' => "S9TRDfjHl0lG136CPgYyL1NCSHlBYt6AmRQrlAnjESo"
+			    'oauth_access_token' => "28724574-l1Bx9yBZgAFTgU9SydMtqWBZX1pLkTiAVXkP38xGx",
+			    'oauth_access_token_secret' => "0Rh9zpPnq8GSTYA236iB3vxoCRbIXbBDBNsZssDBGNc7v",
+			    'consumer_key' => "v7l3Q70QUpTGS4n59HkDg",
+			    'consumer_secret' => "jIUNPFebD1daEK0jGHqviCcT4iNRNRDiSPx3A5kI"
 			);
-                private $tw_url = 'https://api.twitter.com/1.1/search/tweets.json';
+                private $tw_url_search = 'https://api.twitter.com/1.1/search/tweets.json';
+                private $tw_url_rt = 'https://api.twitter.com/1.1/statuses/retweet/:id.json';
+                 private $tw_url_post = 'https://api.twitter.com/1.1/statuses/update.json';
                 
                 
                 private $tw_img_path = 'media/imagen/twitter/';
@@ -28,6 +30,8 @@ class redes_sociales extends CI_Controller{
                     parent::__construct();
                     $this->load->model('redes_sociales_m','redes_sociales');
                     $this->load->model('denuncias_m','denuncias');
+                    
+                    $this->load->library('TwitterAPIExchange',  $this->tw_settings);
 	}
         
                 public function index(){
@@ -37,13 +41,13 @@ class redes_sociales extends CI_Controller{
 	
                 public function denunciarByTwitter(){
                     
-                    $this->load->library('TwitterAPIExchange',  $this->tw_settings);
+                    
                     
                     $ultimo_tweet = $this->redes_sociales->get_ultimo_tweet();
                     
                     $this->tw_query.="&since_id=$ultimo_tweet";
                             
-                    $tweets = json_decode($this->twitterapiexchange->setGetfield( $this->tw_query )->buildOauth( $this->tw_url, 'GET')->performRequest());
+                    $tweets = json_decode($this->twitterapiexchange->setGetfield( $this->tw_query )->buildOauth( $this->tw_url_search, 'GET')->performRequest());
                     
                     //ordenar los mas viejos primero
                     $statuses = array_reverse($tweets->statuses);
@@ -98,6 +102,27 @@ class redes_sociales extends CI_Controller{
                             $this->db->trans_commit();
                         }
                     }
+                    
+                }
+                
+                public function retweet($tweet_id){
+                    $postfields = array(
+                        'id' => $tweet_id
+                    );
+                    $this->tw_url_rt = str_replace(':id', $tweet_id, $this->tw_url_rt);
+                    $json = $this->twitterapiexchange->setPostfields($postfields)->buildOauth($this->tw_url_rt, 'POST')->performRequest();
+                    $retweetdata=json_decode($json, true);
+                    print_r($retweetdata);
+                }
+                
+                public function twittear($texto){
+                     $json = $this->twitterapiexchange->setPostfields(array("status" => $texto ))->buildOauth($this->tw_url_post, 'POST')->performRequest();
+                     print_r(json_decode($json, true));
+                }
+                
+               public function menciones(){
+                    $tweets = json_decode($this->twitterapiexchange->buildOauth( 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', 'GET')->performRequest());
+                   print_r($tweets);
                     
                 }
 	

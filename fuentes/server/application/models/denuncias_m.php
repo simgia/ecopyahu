@@ -67,4 +67,22 @@ class denuncias_m extends CI_Model{
 	$this->db->where('denuncia_estado', 'activo');
         return $this->db->get('denuncias d');
     } // Fin de la funcion publica get_denuncia.    
+    
+    /**
+     * lista de denuncias que va ser consumido por el webservice
+     */
+    public function get_denuncias_ws($cantidad,$offset,$orden){
+           $this->db->select('sql_calc_found_rows denuncia_id, denuncia_desc, denuncia_fecha, denunica_lat, denuncia_lon, denuncia_fuente, denuncia_ext_id, categoria_nombre');
+           $this->db->order_by('denuncia_fecha', $orden);
+           $this->db->join('categorias c','c.categoria_id = d.categoria_id');
+           $this->db->get('denuncias d',$cantidad, $offset);
+    }
+    
+    /**
+    * Recupera la cantidad de filas (reales si se uso sql_calc_found_rows) de la ultima consulta que se haya ejecutado
+    * @return integer
+    */
+   public function get_cantidad_resultados(){
+           return $this->db->query('select FOUND_ROWS() as found_rows')->row()->found_rows;
+   }
 } // Fin del model denuncias_m.
