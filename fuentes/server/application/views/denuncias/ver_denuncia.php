@@ -8,7 +8,19 @@
     <br>
     
 <?php foreach($imagenes as $imagen){   ?>
-    <img src="<?php echo base_url(); echo TW_IMG_PATH.$imagen->multimedia_file_name;?>"  />
+    <img src="<?php 
+        echo base_url(); 
+        
+        switch($datos_denuncia->denuncia_fuente){
+            case 'twitter':
+                echo TW_IMG_PATH.$imagen->multimedia_file_name;
+                break;
+            case 'web':
+            case 'movil':
+                echo LOCAL_IMG_PATH.$imagen->multimedia_file_name;
+                break;       
+        }
+        ?>" alt ="<?php echo $datos_denuncia->denuncia_desc; ?>"/>
         
 <?php }?>
 
