@@ -47,6 +47,8 @@
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/geolocation/NetworkListener.class \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/geolocation/CordovaLocationListener$LocationTimeoutTask.class \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/geolocation/CordovaLocationListener.class \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/networkinformation/NetworkManager$1.class \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/networkinformation/NetworkManager.class \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/filetransfer/FileTransfer$ExposedGZIPInputStream.class \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/filetransfer/FileProgressResult.class \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/bin/classes/org/apache/cordova/filetransfer/FileTransfer$2.class \

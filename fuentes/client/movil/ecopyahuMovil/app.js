@@ -10,8 +10,8 @@
     will need to resolve manually.
 */
 //var app_url = 'http://ecopyahu/';
-var app_url = 'http://192.168.1.155/';
-//var app_url = 'http://ecopyahu.simgia.com/';
+//var app_url = 'http://192.168.1.155/';
+var app_url = 'http://ecopyahu.simgia.com/';
 Ext.application({
     name: 'ecopyahuMovil',
 
@@ -82,20 +82,27 @@ Ext.application({
 var oneReady = false;       // This is for checking who loaded first.
 
 function checkConnection(){
+    
+    console.log("entro checkConnection1");
     if(!navigator.network){
         return 'UNKNOWN';
     }  
-    var networkState = navigator.network.connection.type;
-    var states = {};
-        states[Connection.UNKNOWN] = 'UNKNOWN';
-        states[Connection.ETHERNET] = 'ETHERNET';
-        states[Connection.WIFI] = 'WIFI';
-        states[Connection.CELL_2G] = 'CELL_2G';
-        states[Connection.CELL_3G] = 'CELL_3G';
-        states[Connection.CELL_4G] = 'CELL_4G';
-        states[Connection.NONE] = 'NONE';
+    console.log("entro checkConnection2");
+    var v_networkState = navigator.network.connection.type;
     
-    return states[networkState];
+    console.log(v_networkState);
+    console.log("entro checkConnection3");
+    
+    var v_states = {};
+        v_states[Connection.UNKNOWN] = 'UNKNOWN';
+        v_states[Connection.ETHERNET] = 'ETHERNET';
+        v_states[Connection.WIFI] = 'WIFI';
+        v_states[Connection.CELL_2G] = 'CELL_2G';
+        v_states[Connection.CELL_3G] = 'CELL_3G';
+        v_states[Connection.CELL_4G] = 'CELL_4G';
+        v_states[Connection.NONE] = 'NONE';
+    
+    return v_states[v_networkState];
 }
 
 function onDeviceReady(){

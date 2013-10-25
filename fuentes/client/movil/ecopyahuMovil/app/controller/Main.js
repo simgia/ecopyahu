@@ -31,7 +31,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
 	    },
             
             'mainviewport button[action=enviar_denuncia]': {
-	        tap: 'enviarDenuncia'
+	        tap: 'verificarEnvioDenuncia'
 	    },
             
             'capturarImagen': {
@@ -118,14 +118,29 @@ Ext.define('ecopyahuMovil.controller.Main',{
     },
     
     /**
+     * Metodo publico que verifica que tenga coneccion a internet par enviar la
+     * denuncia.
+     * Si no tiene muestra un mensaje.
+     * @method verificarEnvioDenuncia
+     * @return void
+     */
+    verificarEnvioDenuncia: function(){
+        var v_scope = this;
+        var v_se_envia_denuncia = v_scope.tieneConexionInternet();
+        
+        if(v_se_envia_denuncia){
+            // Se envia la denuncia.
+            v_scope.enviarDenuncia();
+        }else{
+             Ext.Msg.alert('Error', 'No tiene conexión a internet para enviar la denuncia');
+        }
+    },
+    
+    /**
      * Metodo que envia una denuncia al servidor.
      */
     enviarDenuncia: function(){
         var v_scope = this;
-        
-        console.log("sa", v_scope.getApplication().getName());
-        
-        
         var v_formulario = v_scope.getPrincipal();
         var v_categoria = v_formulario.down('selectfield');
         //var v_denuncia_descripcion = v_formulario.down('fullscreentextarea');
@@ -144,7 +159,6 @@ Ext.define('ecopyahuMovil.controller.Main',{
                 categoria: v_categoria.getValue(),
                 fuente: 'movil'
             },
-            //scope: this,
             success: function(p_response, p_options){
                 if(p_response.resultado == true){
                     var v_denuncia_id = p_response.denuncia_id;
@@ -192,6 +206,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
     
     /**
      * Metodo publico que limpia el formulario.
+     * @method limpiarFormulario
+     * @return void
      */
     limpiarFormulario: function(){
         var v_scope = this;
@@ -206,6 +222,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
     
     /**
      * Metodo publico que resetea la imagen.
+     * @method resetImagen
+     * @return void
      */
     resetImagen: function(){
         var v_scope = this;
@@ -219,6 +237,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
     
     /**
      * Metodo que crea una imagen pero vacia.
+     * @method crearImagen
+     * @return void
      */
     crearImagen: function(){
         var v_scope = this;
@@ -243,10 +263,20 @@ Ext.define('ecopyahuMovil.controller.Main',{
     tieneConexionInternet: function(){
         var v_scope = this;
         var v_nombre_aplicacion = v_scope.getApplication().getName();
+        console.log("entro1");
         
         v_nombre_aplicacion.connectionType = checkConnection();
-        if(v_nombre_aplicacion.connectionType == 'WIFI' || v_nombre_aplicacion.connectionType == 'CELL_3G'
-            || v_nombre_aplicacion.connectionType == 'CELL_4G'){
+        var v_conexion = checkConnection();
+        
+        console.log("entro2");
+        console.log(v_nombre_aplicacion.connectionType);
+        
+        console.log("v_conexion");
+        console.log(v_conexion);
+        
+        
+        if(v_conexion == 'WIFI' || v_conexion == 'CELL_3G'
+            || v_conexion == 'CELL_4G'){
             // Si se tiene coneccion wifi, 3g o 4g.
             return true;
         }

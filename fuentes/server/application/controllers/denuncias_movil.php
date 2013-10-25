@@ -13,6 +13,8 @@ class denuncias_movil extends SMG_Controller {
 	 * @var denuncias_m
 	 */
 	var $denuncias;
+        
+        private $local_img_path = LOCAL_IMG_PATH;
 	
 	/**
 	 * Constructor donde levanta las librerias:
@@ -125,7 +127,7 @@ class denuncias_movil extends SMG_Controller {
 	public function subirMultimedia() {
 		$v_data [] = array ();
 		
-		$config ['upload_path'] = './resources/user_upload/';
+		$config ['upload_path'] = $this->local_img_path;
 		$config ['allowed_types'] = 'gif|jpg|png';
 		$config ['max_size'] = '1000';
 		// $config['max_width'] = '1024';

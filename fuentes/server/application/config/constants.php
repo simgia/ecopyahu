@@ -60,11 +60,11 @@ define('EMAIL_ADDRESS','ecopyhu@simgia.com');
 define('EMAIL_ADDRES_NAME','Ecopyahu');
 
 /*
- * constantes para multimedias
+ * Constantes para multimedias.
  */
-
 define('TW_IMG_PATH','media/imagen/twitter/');
 define('TW_VIDEO_PATH','media/video/twitter/');
+define('LOCAL_IMG_PATH','media/imagen/local/');
 
 
 
