@@ -64,11 +64,10 @@ class denuncias_m extends CI_Model{
      * @return type
      */
     public function get_denuncia($p_denuncia_id){
-        $this->db->select("sql_calc_found_rows d.denuncia_id, d.denuncia_desc, d.denuncia_fecha, "
-            . "d.denuncia_fuente, d.denuncia_estado, cat.categoria_nombre", false);
-        $this->db->join('categorias cat','cat.categoria_id = d.categoria_id');
+        $this->db->select("sql_calc_found_rows d.denuncia_id, d.denuncia_desc, d.denuncia_fecha,d.denuncia_fuente, d.denuncia_estado, cat.categoria_nombre", false);
+        $this->db->join('categorias cat','cat.categoria_id = d.categoria_id','left');
         $this->db->where('denuncia_id', $p_denuncia_id);
-	$this->db->where('denuncia_estado', 'activo');
+        $this->db->where('denuncia_estado', 'activo');
         return $this->db->get('denuncias d');
     } // Fin de la funcion publica get_denuncia.   
     

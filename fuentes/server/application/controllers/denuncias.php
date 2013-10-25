@@ -41,7 +41,23 @@ class denuncias extends SMG_Controller{
      * Metodo que consulta el detalle de la denuncia.
      * @param string p_denuncia_id [via GET]
      */
-    public function getDenuncia(){
+    public function getDenuncia($v_denuncia_id){
+
+        // Se obtiene los detalles de la denuncia.
+        $v_datos_denuncia = $this->denuncias->get_denuncia($v_denuncia_id);
+        if($v_datos_denuncia->num_rows() > 0){
+            
+            $this->data["denuncia_id"] = $v_denuncia_id;
+            
+            $this->data["datos_denuncia"] = $v_datos_denuncia->row();
+                    
+            // Detalles de las imagenes.
+            $this->data["imagenes"] = $this->multimedias->get_imagenes($v_denuncia_id);
+            $this->data["imagenes"] = $this->data["imagenes"]->result();
+            $this->load->view('denuncias/ver_denuncia', $this->data);
+        }else{
+            echo "ocurrio un error";
+        }
     }
 	
     /**
@@ -163,41 +179,7 @@ class denuncias extends SMG_Controller{
         $this->load->view('denuncias/lista_mapa', $this->data);
     }
     
-    /**
-     * Metodo que consulta el detalle de la denuncia.
-     * @method consulta_detalle_denuncia
-     * @param string p_denuncia_id [via GET]
-     */
-    public function consulta_detalle_denuncia(){
-        //$this->validar_permiso(array("administrador","usuario","institucion"));
-        $v_denuncia_id = $this->input->get('denuncia_id', true);
 
-        // Se obtiene los detalles de la denuncia.
-        $v_datos_denuncia = $this->denuncias->get_denuncia($v_denuncia_id);
-        
-        //echo "Last query es: " . $this->db->last_query(). "\n\n";
-
-        if($v_datos_denuncia->num_rows() > 0){
-            $v_datos_denuncia = $v_datos_denuncia->result_array();
-            $v_datos_denuncia = $v_datos_denuncia[0];
-            $this->data["denuncia_id"] = $v_denuncia_id;
-            $v_textos_denuncias_array = $this->get_denuncia_texto_narrado($v_datos_denuncia);
-            
-            $this->data["datos_denuncia"] = $v_textos_denuncias_array;
-                    
-            // Detalles de las imagenes.
-            //$codigo_decimal = hexdec($p_denuncia_id);
-            //$this->data["imagenes"] = $this->denuncias->get_denuncias_detalle_imagenes($codigo_decimal);
-            $this->data["imagenes"] = $this->multimedias->get_imagenes($v_denuncia_id);
-            $this->data["imagenes"] = $this->data["imagenes"]->result_array();
-            $this->load->view('denuncias/denuncias_detalle', $this->data);
-        }else{
-             //redirect("/denuncias/index", 'refresh');
-             //redirect("/denuncias/basico", 'refresh');
-             //redirect('index', 'refresh');
-        }
-    }
-	
     /**
      * Metodo para guardar la imagen, ya debe crear la denuncia como borrador y devolver el id para que cuando guarde la denuncia solo actualice la info
      */ 
