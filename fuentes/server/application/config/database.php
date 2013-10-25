@@ -49,8 +49,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '145541';
+$db['default']['username'] = 'ecopyahu';
+$db['default']['password'] = 'ecopyahu';
 $db['default']['database'] = 'ecopyahu';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
