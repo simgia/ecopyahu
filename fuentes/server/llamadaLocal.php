@@ -6,4 +6,4 @@
  */
 $url = "http://ecopyahu.simgia.com/denuncias_redes_sociales/insertarDenunciasByTwitter";
 //  $url = "http://ecopyahu.simgia.com/denuncias_redes_sociales/test";
-echo file_get_contents($url);
+file_get_contents($url);
