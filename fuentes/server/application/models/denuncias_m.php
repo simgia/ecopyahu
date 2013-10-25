@@ -44,14 +44,15 @@ class denuncias_m extends CI_Model{
      * @return array[object]
      */
     public function get_lista_denuncias($p_limit = 100, $p_offset = 0, $p_sort = null){
-        $this->db->select("sql_calc_found_rows d.*", false);
+        $this->db->select("sql_calc_found_rows d.denuncia_id, d.denuncia_desc, d.denuncia_fecha, "
+            . "d.denuncia_fuente, d.denuncia_lat, d.denuncia_lon, d.denuncia_estado", false);
 	if($p_sort != null){
             foreach($p_sort as $sort){
                 $this->db->order_by($sort->property,$sort->direction);
             }
 	}
-        //$this->db->order_by("denuncia_id", "asc");
 	$this->db->where('denuncia_estado', 'activo');
+        $this->db->order_by("denuncia_id", "desc");
 	//return $this->db->get('denuncias d', $p_limit, $p_offset);
         return $this->db->get('denuncias d');
     } // Fin de la funcion publica get_lista_denuncias.
@@ -64,7 +65,7 @@ class denuncias_m extends CI_Model{
      */
     public function get_denuncia($p_denuncia_id){
         $this->db->select("sql_calc_found_rows d.denuncia_id, d.denuncia_desc, d.denuncia_fecha, "
-                . "d.denuncia_fuente, d.denuncia_estado, cat.categoria_nombre", false);
+            . "d.denuncia_fuente, d.denuncia_estado, cat.categoria_nombre", false);
         $this->db->join('categorias cat','cat.categoria_id = d.categoria_id');
         $this->db->where('denuncia_id', $p_denuncia_id);
 	$this->db->where('denuncia_estado', 'activo');

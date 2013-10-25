@@ -89,9 +89,7 @@ class denuncias extends SMG_Controller{
 	}
 	$this->data['contador_omitidos'] =$contador_denuncias_omitidos;
 	$this->data['contador_ubicados'] =$contador_denuncias_ubicados;
-	//$puntos = json_decode($puntos_json);
-		
-		
+	
 	// Ordenar el array de objetos.
 	/*
 	 * Funcion interna para comparar la latitud
@@ -108,18 +106,18 @@ class denuncias extends SMG_Controller{
                  return ($p_punto1->latitud < $p_punto2->latitud) ? -1 : 1;
         }
 	usort($puntos, "cmp");
-		
-	//print_r($puntos);
-
+        
 	$v_indice_nodo = 0;
 	$v_indice_hijos_denuncia = 0;
 	$v_primer_nodo = true;
 	$v_es_hoja = false;
-	//$puntos_nodos = array();	
         
+        // Se crea un array vacio.
+	$puntos_nodos = array();
+
 	for($i = 0; $i < count ($puntos); $i++){
-            //echo "<br>Decimal: " . $puntos[$i]->denuncia_id . " hexa: " . dechex($puntos[$i]->denuncia_id);
             if($v_primer_nodo){
+                $puntos_nodos[] = new stdClass();
                 $puntos_nodos[$v_indice_nodo]->latitud  = $puntos[$i]->latitud;
                 $puntos_nodos[$v_indice_nodo]->longitud = $puntos[$i]->longitud;
                 $puntos_nodos[$v_indice_nodo]->cantidad = 0;
@@ -135,16 +133,18 @@ class denuncias extends SMG_Controller{
             //if(isset($puntos[$i+1]->latitud) && $puntos[$i]->latitud == $puntos[$i+1]->latitud){
             if(isset($puntos[$i+1]->latitud) && ($puntos[$i]->latitud == $puntos[$i+1]->latitud) && ($puntos[$i]->longitud == $puntos[$i+1]->longitud)){
                 // Nodo Padre e hijos.
-                    $puntos_nodos[$v_indice_nodo]->cantidad = $puntos_nodos[$v_indice_nodo]->cantidad + 1;
-                    $puntos_nodos[$v_indice_nodo]->estado = 'null';
-                    $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->denuncia_id = /*dechex*/($puntos[$i]->denuncia_id);
-                    $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->estado = $puntos[$i]->denuncia_estado;
-                    $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->fecha_registro = $puntos[$i]->fecha_registro;
-                    $v_indice_hijos_denuncia = $v_indice_hijos_denuncia + 1;
+                $puntos_nodos[$v_indice_nodo]->cantidad = $puntos_nodos[$v_indice_nodo]->cantidad + 1;
+                $puntos_nodos[$v_indice_nodo]->estado = 'null';
+                $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia] = new stdClass();
+                $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->denuncia_id = ($puntos[$i]->denuncia_id);
+                $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->estado = $puntos[$i]->denuncia_estado;
+                $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->fecha_registro = $puntos[$i]->fecha_registro;
+                $v_indice_hijos_denuncia = $v_indice_hijos_denuncia + 1;
             }else{
 	         if(isset($puntos_nodos[$v_indice_nodo]->estado) && $puntos_nodos[$v_indice_nodo]->estado == 'null'){
 		     $puntos_nodos[$v_indice_nodo]->cantidad = $puntos_nodos[$v_indice_nodo]->cantidad + 1;
-		     $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->denuncia_id = /*dechex*/($puntos[$i]->denuncia_id);
+                     $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia] = new stdClass();
+		     $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->denuncia_id = ($puntos[$i]->denuncia_id);
                      $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->estado = $puntos[$i]->denuncia_estado;
 		     $puntos_nodos[$v_indice_nodo]->denuncias[$v_indice_hijos_denuncia]->fecha_registro = $puntos[$i]->fecha_registro;
                 }else{
@@ -160,12 +160,6 @@ class denuncias extends SMG_Controller{
             }
 	}
 	$this->data['puntos'] = $puntos_nodos;
-        /*
-	foreach($filtros as $key=>$value){
-            if(!empty($value)){
-                $this->data['filtros'][$key]=$value;
-            }
-        }*/
         $this->load->view('denuncias/lista_mapa', $this->data);
     }
     

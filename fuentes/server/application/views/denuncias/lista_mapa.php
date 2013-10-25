@@ -125,8 +125,8 @@ $this->load->view('comunes/cabecera');
             v_offset = new OpenLayers.Pixel(-(v_tamanio.w / 2), -v_tamanio.h);
            
             // Iconos de los marcadores.
-            v_icono_denuncia_unica = new OpenLayers.Icon('<?php echo base_url() ?>js/OpenLayers-2.13.1/img/marker-gold.png', v_tamanio, v_offset);
-            v_icono_denuncias_varias = new OpenLayers.Icon('<?php echo base_url() ?>js/OpenLayers-2.13.1/img/marker.png', v_tamanio, v_offset);
+            v_icono_denuncia_unica = new OpenLayers.Icon('<?php echo base_url(); ?>js/OpenLayers-2.13.1/img/marker-gold.png', v_tamanio, v_offset);
+            v_icono_denuncias_varias = new OpenLayers.Icon('<?php echo base_url(); ?>js/OpenLayers-2.13.1/img/marker.png', v_tamanio, v_offset);
             
             // Se agrega un marcador en el Layer de marcadores.
             <?php
@@ -134,6 +134,7 @@ $this->load->view('comunes/cabecera');
             	$promedio_lat = 0;
             	$promedio_long = 0;
             	$cant = 0;
+                if(isset($puntos)){
             	foreach($puntos as $punto){
                     $cant++;
                     $promedio_lat += $punto->latitud;
@@ -231,7 +232,8 @@ $this->load->view('comunes/cabecera');
            		}); // Fin del evento click del v_marcador.
            		v_layer_marcador.addMarker(v_marcador); 
            <?php
-            	}//end foreach
+            	}//end foreach.
+                }// end if.
             	if($cant == 0){ 
                     // Control de que no hay nada que haya pasado por el foreach.
                     $cant++;
@@ -240,7 +242,7 @@ $this->load->view('comunes/cabecera');
             	}
             ?>
             // Posicionar para la primera visualizacion el mapa en una latitud y longitud elegida.
-            v_mapa.setCenter(new OpenLayers.LonLat(<?php echo $promedio_long/$cant?>, <?php echo $promedio_lat/$cant?>) 	// Centrar el mapa.
+            v_mapa.setCenter(new OpenLayers.LonLat(<?php echo $promedio_long/$cant;?>, <?php echo $promedio_lat/$cant;?>) 	// Centrar el mapa.
                 .transform(
                     v_fromProjection, 					// Transformar from WGS 1984
                     v_toProjection 					// a Spherical Mercator Projection.

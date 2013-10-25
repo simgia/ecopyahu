@@ -52,6 +52,7 @@ class denuncias_movil extends SMG_Controller{
         $data['denuncia_lat'] = $v_latitud;
         $data['denuncia_lon'] = $v_longitud;
         $data['denuncia_desc'] = $v_descripcion;
+        $data['denuncia_fecha'] = date('Y-m-d H:i:s');
         $data['categoria_id'] = $v_categoria;
         $data['denuncia_fuente'] = $v_fuente;
 
