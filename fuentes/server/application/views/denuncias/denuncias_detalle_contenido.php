@@ -6,25 +6,19 @@
     if(isset($p_textos["denuncia_desc"])) $v_impresion[] = $p_textos["denuncia_desc"];
     if(isset($p_textos["categoria_nombre"])) $v_impresion[] = $p_textos["categoria_nombre"];
     if(isset($p_textos["denuncia_fuente"])) $v_impresion[] = $p_textos["denuncia_fuente"];
-    if(isset($p_textos["denuncia_estado"])) $v_impresion[] = $p_textos["denuncia_estado"];
-    if(isset($p_textos["localizacion"]) && $p_textos["localizacion"]!="") $v_impresion[] = $p_textos["localizacion"];
-    if(isset($p_textos["latitud_longitud_str"]) && $p_textos["latitud_longitud_str"]!="") {
-        //Pregunta si debe o no mostrar el mapa
-        if(!isset($p_textos["fecha_registro"]))
-            $v_impresion[] = "mapa";
-        else
-            $v_impresion[] = "Coordenadas geogr&aacute;ficas: <br/> ".$p_textos["latitud_longitud_str"];
-    } 
+    //if(isset($p_textos["denuncia_estado"])) $v_impresion[] = $p_textos["denuncia_estado"];
+    
     $v_contador = 1;
     $v_elementos_columna = 8;
     $v_elementos = '';
     $v_columnas = 0;
     echo "<p>";
     foreach($v_impresion as $v_elemento) {
-        if(trim($v_elemento)=="")
+        if(trim($v_elemento) == ""){
             continue;
+        }
         
-        if($v_elemento=="mapa") {
+        if($v_elemento == "mapa") {
             $v_url = "http://maps.googleapis.com/maps/api/staticmap?center=";
             $v_url .= $p_textos["latitud_longitud_str"];
             $v_url .= "&zoom=".$p_textos["zoom_mapa"];
@@ -38,7 +32,7 @@
             //Por ser el mapa no se imprime mas nada
             $v_contador=0;
         
-        } else {
+        }else{
             $v_elementos .= '<li>'.$v_elemento.'</li>';
         }
         
