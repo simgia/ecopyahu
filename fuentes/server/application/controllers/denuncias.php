@@ -124,6 +124,7 @@ class denuncias extends SMG_Controller{
 		$v_primer_nodo = false;
             }
             if($v_es_hoja){
+                $puntos_nodos[] = new stdClass();
                 $puntos_nodos[$v_indice_nodo]->latitud  = $puntos[$i]->latitud;
 		$puntos_nodos[$v_indice_nodo]->longitud = $puntos[$i]->longitud;
 		$puntos_nodos[$v_indice_nodo]->cantidad = 0;

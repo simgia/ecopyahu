@@ -17,6 +17,7 @@ Ext.define('ecopyahuMovil.store.Denuncias.Categorias',{
                 totalProperty: 'cantidad_total'
             }            
         },
-        autoLoad: true
+        //autoLoad: true        // esta en false porque en la app de android no esta funcionando.
+        autoLoad: false
     }
 });

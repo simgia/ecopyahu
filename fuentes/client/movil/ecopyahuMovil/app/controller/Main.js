@@ -152,11 +152,11 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que envia una denuncia al servidor.
      */
     enviarDenuncia: function(){
-        console.log("v_scope", this);
         var v_scope = this;
         var v_formulario = v_scope.getPrincipal();
         var v_categoria = v_formulario.down('selectfield');
-        var v_denuncia_descripcion = v_formulario.down('fullscreentextarea');
+        //var v_denuncia_descripcion = v_formulario.down('fullscreentextarea');
+        var v_denuncia_descripcion = v_formulario.down('textareafield');
         
         // Obtener los datos del GPS.
         var v_latitud = v_scope.latitud;

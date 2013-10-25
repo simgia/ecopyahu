@@ -59,18 +59,20 @@ Ext.define("ecopyahuMovil.view.Main", {
                 {categoria_nombre: 'Otros',  categoria_id: 6}
             ]
         },{
-            /*
+            
             xtype: 'textareafield',
             label: 'Descripci\u00f3n',
             itemId: 'textarea_descripcion',
             maxRows: 4,
             name: 'descripcion'
-            */
+            
+           /*
             xtype: 'fullscreentextarea',
             label: 'Descripci\u00f3n',
             itemId: 'textarea_descripcion',
             maxRows: 4,
             name: 'descripcion'
+            */
         },{
             xtype: 'button',
             html: '<h3 style="color:#FFF">Enviar</h3>',
