@@ -103,7 +103,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var este = ecopyahuMovil.app.getController('General');
         
         ecopyahuMovil.connectionType = checkConnection();
-        este.addLog('...polling... '+ DenunciasCamara.connectionType+' with store count:'+ Ext.getStore('theImageQueue').getRange().length);
+        //este.addLog('...polling... '+ ecopyahuMovil.connectionType+' with store count:'+ Ext.getStore('theImageQueue').getRange().length);
         if(ecopyahuMovil.connectionType == 'WIFI' || ecopyahuMovil.connectionType == 'ETHERNET' ){//if we have wi-fi or ethernet
             este.addLog('we have WIFI');
             if(!este.getAreImagesUploading()){//and there aren't any images uploading already

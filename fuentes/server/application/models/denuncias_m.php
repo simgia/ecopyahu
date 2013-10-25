@@ -81,46 +81,53 @@ class denuncias_m extends CI_Model{
            $this->db->join('categorias c','c.categoria_id = d.categoria_id','left');
            return $this->db->get('denuncias d',$cantidad, $offset);
     }
-    
-     /*
-    * recupera el id del ultimo tweet que se cargo para recuperar solo los posteiores de twitter
-    * 
-    */
-   public function get_ultima_denuncia_ext($fuente){
-       $this->db->select('max(denuncia_ext_id) as denuncia_ext_id',false);
-       $this->db->where('denuncia_fuente',$fuente);
-       $r = $this->db->get('denuncias');
-       if( $r->row()->denuncia_ext_id!=null)
-           return $r->row()->denuncia_ext_id;
-       else
-           return 0;
+        
+    /**
+     * Recupera el id del ultimo tweet que se cargo para recuperar solo los posteiores de twitter.
+     * 
+     */
+    public function get_ultima_denuncia_ext($fuente){
+        $this->db->select('max(denuncia_ext_id) as denuncia_ext_id',false);
+        $this->db->where('denuncia_fuente',$fuente);
+        $r = $this->db->get('denuncias');
+       
+        if($r->row()->denuncia_ext_id != null){
+            return $r->row()->denuncia_ext_id;
+        } 
+        else{
+             return 0;
+        }       
    }
    
-   public function insertar_denuncia_ext($tweet){  
-                    $lat = null;
-                    $lon = null;
-                    if(isset($tweet->coordinates)){
-                        $lat = $tweet->coordinates->coordinates[1];
-                        $lon = $tweet->coordinates->coordinates[0];
-                    }
-                    $data = array(
-                        'denuncia_desc'=>$tweet->text,
-                        'denuncia_fecha'=>date( 'Y-m-d H:i:s', strtotime($tweet->created_at) ),
-                        'denuncia_lat'=>$lat,
-                        'denuncia_lon'=>$lon,
-                        'denuncia_fuente'=>'twitter',
-                        'denuncia_ext_id'=>$tweet->id,
-                        'denuncia_ext_datos'=>  json_encode($tweet)
-                    );
-                   $this->db->insert('denuncias', $data);
-                    return $this->db->insert_id();
-                }
+    /**
+     * 
+     */
+    public function insertar_denuncia_ext($tweet){  
+        $lat = null;
+        $lon = null;
+       
+        if(isset($tweet->coordinates)){
+            $lat = $tweet->coordinates->coordinates[1];
+            $lon = $tweet->coordinates->coordinates[0];
+        }
+        $data = array(
+            'denuncia_desc' => $tweet->text,
+            'denuncia_fecha' => date( 'Y-m-d H:i:s', strtotime($tweet->created_at) ),
+            'denuncia_lat' => $lat,
+            'denuncia_lon' => $lon,
+            'denuncia_fuente' => 'twitter',
+            'denuncia_ext_id' => $tweet->id,
+            'denuncia_ext_datos' => json_encode($tweet)
+        );
+        $this->db->insert('denuncias', $data);
+        return $this->db->insert_id();
+    }
     
     /**
-    * Recupera la cantidad de filas (reales si se uso sql_calc_found_rows) de la ultima consulta que se haya ejecutado
-    * @return integer
-    */
-   public function get_cantidad_resultados(){
-           return $this->db->query('select FOUND_ROWS() as found_rows')->row()->found_rows;
-   }
+     * Recupera la cantidad de filas (reales si se uso sql_calc_found_rows) de la ultima consulta que se haya ejecutado
+     * @return integer
+     */
+    public function get_cantidad_resultados(){
+        return $this->db->query('select FOUND_ROWS() as found_rows')->row()->found_rows;
+    }
 } // Fin del model denuncias_m.

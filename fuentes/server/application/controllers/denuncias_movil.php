@@ -93,13 +93,13 @@ class denuncias_movil extends SMG_Controller{
     public function getCategorias(){
         $this->input->get('limit', true);
 	$this->input->get('offset', true);
-		
+	
  	$v_categorias = $this->denuncias->get_categorias();
 	$v_data['cantidad_total'] = 0;
 	$v_data['resultado'] = false;
 		
 	if($v_categorias->num_rows() > 0 ){
-            $v_data['cantidad_total'] = $this->denuncias->get_cantidad_filas();
+            $v_data['cantidad_total'] = $this->denuncias->get_cantidad_resultados();
             $v_data['resultado'] = true;
             $v_data['data'] = $v_categorias->result();
 	}
