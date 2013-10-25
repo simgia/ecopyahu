@@ -120,10 +120,14 @@
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/startup/768x1004.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/startup/1536x2008.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/startup/1496x2048.png \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.file \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.geolocation \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.camera \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information/www \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information/www/Connection.js \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information/www/network.js \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.file/www \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.file/www/Entry.js \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/plugins/org.apache.cordova.file/www/FileEntry.js \
