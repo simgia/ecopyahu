@@ -44,33 +44,22 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que abre la camara del dispositivo. 
      */
     openCamera: function(p_button, p_eve){
-        //this.addLog('Se quiere sacar una foto.');
-        
         var me = this;
-        //var deleteBtn = me.getDeleteBtn();
-        
-        // Se obtiene la referencia de la imagen.
+
         var v_imagen = me.getImg();
         
         Ext.device.Camera.capture({
             success: fotoExitosa,
             scope: this,
             quality : 85,
-            /*width: 200,
-            height: 200,*/
             source: 'camera',
-           // destination: 'data'
             destinationType: 'file'
         });
         
         function fotoExitosa(p_imagen) {
             // Se obtiene la ruta de la imagen.
-            var v_ruta_imagen = p_imagen;
- 
+            var v_ruta_imagen = p_imagen; 
             v_imagen.setSrc(v_ruta_imagen);
-
-            //hide delete button
-            //deleteBtn.setHidden(false);
         }
     },
       
@@ -78,8 +67,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que abre la ventana donde se encuentra el mapa (OSM).
      */
     abrirMapa: function(){
-        alert("Entro Mapa");
-        
+        alert("Entro Mapa");        
         // Initialize the main view
        // Ext.Viewport.add(Ext.create('DenunciasCamara.view.Mapa.Main'));
     },
@@ -93,8 +81,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
     },
             
     addLog: function(toAdd){
-        var msgta = ecopyahuMovil.semiConsole.getHtml()+'<br>'+toAdd;
-    
+        var msgta = ecopyahuMovil.semiConsole.getHtml()+'<br>'+toAdd;    
         ecopyahuMovil.semiConsole.setHtml(msgta);
         console.log( msgta );
     },
@@ -103,14 +90,13 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var este = ecopyahuMovil.app.getController('General');
         
         ecopyahuMovil.connectionType = checkConnection();
-        //este.addLog('...polling... '+ ecopyahuMovil.connectionType+' with store count:'+ Ext.getStore('theImageQueue').getRange().length);
         if(ecopyahuMovil.connectionType == 'WIFI' || ecopyahuMovil.connectionType == 'ETHERNET' ){//if we have wi-fi or ethernet
             este.addLog('we have WIFI');
             if(!este.getAreImagesUploading()){//and there aren't any images uploading already
-                if(Ext.getStore('theImageQueue').getRange().length){//and finally IF there are images to upload
+                if(Ext.getStore('theImageQueue').getRange().length){
+                	//and finally IF there are images to upload
                     este.addLog('there is stuff in the queue');
                     /********* WE BEGIN A NEW UPLOAD CYCLE OF THE IMAGES ON THE STORE ********/
-                    //Ext.Msg.alert('Begin', 'The file queue will start to upload.');
                     este.uploadNextImage();
                 }
             }
@@ -118,8 +104,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
     },        
             
     launch: function(){
-        console.log('This thing has started.');
-        if(oneReady || Ext.os.is.Desktop){//if we are on desktop we assume there's no phonegap.
+        if(oneReady || Ext.os.is.Desktop){
+        	//if we are on desktop we assume there's no phonegap.
             this.hola();
         }else{
             oneReady = true;
