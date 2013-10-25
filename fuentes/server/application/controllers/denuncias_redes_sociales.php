@@ -95,5 +95,4 @@ class denuncias_redes_sociales extends CI_Controller {
 			}
 		}
 	}
-}
 } // Fin del controlador denuncias.
