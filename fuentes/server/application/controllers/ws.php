@@ -27,8 +27,9 @@ class ws extends CI_Controller{
                 
                 public function getDenuncias(){
                     $cantidad = $this->input->get('cant',true);
-                    $pagina = $this->input->get('pag',true);
                     $orden = $this->input->get('ord',true); //asc or desc por fecha
+                    $pagina = $this->input->get('pag',true);
+                    
                     
                     if(!$cantidad or $cantidad > 200)
                         $cantidad = 200;
@@ -52,9 +53,20 @@ class ws extends CI_Controller{
                     }
                     
                     $datos = array('denuncias'=>$denuncias,'cantidad_total'=>$cantidad_total);
-                    print_r($datos);
-                   // echo json_encode($datos);
+                    //print_r($datos);
+                    echo json_encode($datos);
                     
+                }
+                
+                /*
+                 * ejemplo para consumir datos
+                 */
+                
+                public function consumirWs(){
+                    $denuncias = file_get_contents('http://ecopyahu/ws/getDenuncias?cant=2&ord=asc&pag=1');
+                    echo "<pre>";
+                        print_r(json_decode($denuncias));
+                    echo "</pre>";
                 }
     
 }

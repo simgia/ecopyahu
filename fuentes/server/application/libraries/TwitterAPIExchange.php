@@ -19,8 +19,8 @@ class TwitterAPIExchange
     private $oauth_access_token_secret;
     private $consumer_key;
     private $consumer_secret;
-    private $postfields;
-    private $getfield;
+    public $postfields;
+    public $getfield;
     protected $oauth;
     public $url;
 
