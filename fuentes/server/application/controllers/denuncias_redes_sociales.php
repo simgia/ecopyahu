@@ -26,7 +26,7 @@ class denuncias_redes_sociales extends CI_Controller {
 	public function index() {
 	}
 	public function insertarDenunciasByTwitter() {
-		if ($_SERVER ['SERVER_ADDR'] == '127.0.0.1') {
+		if ($_SERVER ['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) {
 			$ultimo_tweet = $this->denuncias->get_ultima_denuncia_ext ( 'twitter' );
 			
 			// $this->tw_query.="&since_id=$ultimo_tweet";
@@ -95,7 +95,7 @@ class denuncias_redes_sociales extends CI_Controller {
 			}
 		}
 	}
-	function test(){
+	/*function test(){
 		print_r($_SERVER);
-	}
+	}*/
 } // Fin del controlador denuncias.
