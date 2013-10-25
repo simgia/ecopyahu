@@ -16,7 +16,8 @@ class denuncias extends SMG_Controller{
      */
     public function __construct(){
         parent::__construct();
-        $this->load->model('denuncias_m','denuncias');	
+        $this->load->model('denuncias_m', 'denuncias');	
+        $this->load->model('multimedias_m', 'multimedias');	
     }
 	
     /**
@@ -150,7 +151,7 @@ class denuncias extends SMG_Controller{
 		     // Nodo hoja.
 		     $puntos_nodos[$v_indice_nodo]->cantidad = 1;
                      $puntos_nodos[$v_indice_nodo]->estado = $puntos[$i]->denuncia_estado;
-                     $puntos_nodos[$v_indice_nodo]->id_denuncia = /*dechex*/($puntos[$i]->denuncia_id);
+                     $puntos_nodos[$v_indice_nodo]->denuncia_id = /*dechex*/($puntos[$i]->denuncia_id);
                      $puntos_nodos[$v_indice_nodo]->fecha_registro = $puntos[$i]->fecha_registro;	
 		}
 		$v_indice_nodo = $v_indice_nodo + 1;
@@ -176,23 +177,25 @@ class denuncias extends SMG_Controller{
     public function consulta_detalle_denuncia(){
         //$this->validar_permiso(array("administrador","usuario","institucion"));
         $v_denuncia_id = $this->input->get('denuncia_id', true);
-        
+
+        // Se obtiene los detalles de la denuncia.
         $v_datos_denuncia = $this->denuncias->get_denuncia($v_denuncia_id);
         
-        echo "Last query: " . $this->db->last_query() . "\n\n";
-        
+        //echo "Last query es: " . $this->db->last_query(). "\n\n";
+
         if($v_datos_denuncia->num_rows() > 0){
             $v_datos_denuncia = $v_datos_denuncia->result_array();
             $v_datos_denuncia = $v_datos_denuncia[0];
-            $this->data["id_denuncia"] = $p_denuncia_id;
-            //$v_textos_denuncias_array = $this->get_denuncia_texto_narrado($v_datos_denuncia);
+            $this->data["denuncia_id"] = $v_denuncia_id;
+            $v_textos_denuncias_array = $this->get_denuncia_texto_narrado($v_datos_denuncia);
             
-            //$this->data["datos_denuncia"] = $v_textos_denuncias_array;
+            $this->data["datos_denuncia"] = $v_textos_denuncias_array;
                     
-            //Detalles imagenes
+            // Detalles de las imagenes.
             //$codigo_decimal = hexdec($p_denuncia_id);
             //$this->data["imagenes"] = $this->denuncias->get_denuncias_detalle_imagenes($codigo_decimal);
-            //$this->data["imagenes"] = $this->data["imagenes"]->result_array();
+            $this->data["imagenes"] = $this->multimedias->get_imagenes($v_denuncia_id);
+            $this->data["imagenes"] = $this->data["imagenes"]->result_array();
             $this->load->view('denuncias/denuncias_detalle', $this->data);
         }else{
              //redirect("/denuncias/index", 'refresh');
@@ -218,4 +221,48 @@ class denuncias extends SMG_Controller{
      */
     public function recuperarImagenes(){
     }
+    
+    
+    /******************************
+     * METODOS PRIVADOS           *
+     *****************************/
+    /**
+     * Function privada que devuelve un array con todos textos a usarse al convertir a denuncia narrada.
+     * @method get_denuncia_texto_narrado
+     * @param string p_datos un array con los datos cargados por el usuario a partir del formulario o movil.
+     * @return array
+     */
+    private function get_denuncia_texto_narrado($p_datos) {
+        $v_textos = array();    // Inicializamos el array.
+    
+        if($p_datos) {
+            // print_r($p_datos);
+            $v_textos["tipo_denuncia"] = "";
+            
+            // Excepcion si vienen los datos de base de datos.
+            //---------------------------------------------------------
+            if(isset($p_datos["denuncia_id"])) {
+                $v_textos["fecha_registro"] = "Denuncia registrada el ".$p_datos["denuncia_fecha"];
+                if(isset($p_datos["denuncia_estado"])){
+                    $v_textos["denuncia_estado"] = "Estado: ".$p_datos["denuncia_estado"];
+                }else{
+                     $v_textos["denuncia_estado"] = "Estado: ". 'Nuevo';
+                }
+                if(isset($p_datos["categoria_nombre"])){
+                    $v_textos["categoria_nombre"] = "Denuncia realizada por : ". $p_datos["categoria_nombre"];
+                }
+                
+                if(isset($p_datos["denuncia_desc"])){
+                    $v_textos["denuncia_desc"] = "Descripci&oacute;n: ". $p_datos["denuncia_desc"];
+                }
+                
+                if(isset($p_datos["denuncia_fuente"])){
+                    $v_textos["denuncia_fuente"] = "Enviado por: ". $p_datos["denuncia_fuente"];
+                }
+                // Si hay coordenadas o Localizacion.
+                
+            }
+        }
+        return $v_textos;
+    } // Fin de la funcion public get_denuncia_texto_narrado.
 } // Fin del controlador denuncias.

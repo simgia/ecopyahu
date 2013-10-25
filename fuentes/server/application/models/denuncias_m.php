@@ -57,16 +57,19 @@ class denuncias_m extends CI_Model{
     } // Fin de la funcion publica get_lista_denuncias.
     
     /**
-     * 
-     * @param int $p_denuncia
+     * Metodo que devuelve los datos de la denuncia.
+     * @method get_denuncia
+     * @param int $p_denuncia_id
      * @return type
      */
     public function get_denuncia($p_denuncia_id){
-        $this->db->select("sql_calc_found_rows d.*", false);
-        $this->db->where('denuncia_id', $p_denuncia);
+        $this->db->select("sql_calc_found_rows d.denuncia_id, d.denuncia_desc, d.denuncia_fecha, "
+                . "d.denuncia_fuente, d.denuncia_estado, cat.categoria_nombre", false);
+        $this->db->join('categorias cat','cat.categoria_id = d.categoria_id');
+        $this->db->where('denuncia_id', $p_denuncia_id);
 	$this->db->where('denuncia_estado', 'activo');
         return $this->db->get('denuncias d');
-    } // Fin de la funcion publica get_denuncia.    
+    } // Fin de la funcion publica get_denuncia.   
     
     /**
      * lista de denuncias que va ser consumido por el webservice

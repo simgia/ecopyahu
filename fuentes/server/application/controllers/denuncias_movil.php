@@ -52,7 +52,7 @@ class denuncias_movil extends SMG_Controller{
         $data['denuncia_lat'] = $v_latitud;
         $data['denuncia_lon'] = $v_longitud;
         $data['denuncia_desc'] = $v_descripcion;
-        $data['clasificacion_id'] = $v_categoria;
+        $data['categoria_id'] = $v_categoria;
         $data['denuncia_fuente'] = $v_fuente;
 
         $this->denuncias->db->trans_begin();
