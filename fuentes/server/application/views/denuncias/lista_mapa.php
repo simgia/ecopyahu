@@ -8,6 +8,7 @@ $this->load->view('comunes/cabecera');
     <script src="<?php echo base_url() ?>js/JQuery/jquery-ui-1.10.3.custom.js"></script>
     <script src="<?php echo base_url() ?>js/JQuery/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="<?php echo base_url() ?>js/JQuery/jquery.bpopup.min.js"></script>
+    <script src="<?php echo base_url() ?>js/JQuery/jquery.simplemodal.js"></script>
     
     <style type="text/css">
         /*
@@ -253,30 +254,17 @@ $this->load->view('comunes/cabecera');
         function ver_detalle_denuncia(p_denuncia_id){
             $(document).ready( function() {
                 $("a[rel='pop-up']").click(function () {
-                    var caracteristicas = "height=200,width=300,scrollTo,resizable=1,scrollbars=1,location=0";
-                    
+                    var caracteristicas = "height=450,width=400,resizable=0,scrollbars=0,status=no,toolbar=no,menubar=no,location=no";
 
-                    nueva = window.open('denuncias/consulta_detalle_denuncia/?denuncia_id=' + p_denuncia_id, 'Popup', caracteristicas);
+                    nueva = window.open('denuncias/consulta_detalle_denuncia/?denuncia_id=' + p_denuncia_id, '_blank', caracteristicas);
                     return false;
                 });
             });
-
-/*
-            $(document).ready(function () {
-                $("#denuncia_detalle").click(function (event) {
-                    alert(p_denuncia_id);
-                    
-                    popup = window.open('www.google.com', "Detalles de la denuncia", "height=512, width=512");
-                    popup.focus();
-                    
-                });
-            }); 
-            */
         }
 	</script>
 </head>
 <!--CUERPO-->
-<body onload='inicializar();'>	    
+<body onload='inicializar();'>	 
     <div id="content-denunciar">		
         <?php $this->load->view('comunes/menu')?>
             <h2>Denuncias</h2>

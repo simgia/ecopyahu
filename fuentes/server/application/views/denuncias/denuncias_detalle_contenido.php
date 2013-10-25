@@ -68,18 +68,18 @@
         echo "<p>Se adjunta la im&aacute;gen:</p>";
         foreach($p_nombre_imagenes as $v_nombre) {
             $v_size = "/150/150";
-            if(!isset($vista_detalle)) {
+            if(!isset($vista_detalle)){
                 $v_url = "/resources/user_upload/$v_nombre";
                 $v_link = "";
-            } else {
-                $v_url = "/resources/user_upload/". $v_nombre["multimedia_file_name"];
-                //$v_link = "<a href='javascript:window.open(\"$v_url\")'>Ver Original</a>";
-                $v_link = "<a href='$v_url' target = '_blank'>Ver Original</a>";
+            }else{
+                 $v_url = "/resources/user_upload/". $v_nombre["multimedia_file_name"];
+                 //$v_link = "<a href='javascript:window.open(\"$v_url\")'>Ver Original</a>";
+                 //$v_link = "<a href='$v_url' target = '_blank'>Ver Original</a>";
             }
             //echo "<div class='imagenes-denunciante'><img src='$v_url"."$v_size' width='150'>".$v_link."</div>";
-            echo "<div class='imagenes-denunciante'><img src='$v_url"."' width='150'>".$v_link."</div>";
+            //echo "<div class='imagenes-denunciante'><img src='$v_url"."' width='150'>".$v_link."</div>";
+            echo "<div class='imagenes-denunciante'><img src='$v_url"."' width='150'></div>";
             
-            //Corte
             if (($v_contador % $v_elementos_columna == 0)){
                 $v_columnas++;
                 echo '</p></div><div class="colX4"><p>';
