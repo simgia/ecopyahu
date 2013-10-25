@@ -22,7 +22,8 @@ Ext.define('ecopyahuMovil.controller.Main',{
     config: {		
         refs: {
 	    principal: 'mainviewport',
-            Img: '#img'
+            Img: '#img',
+            imgContainer: '#imgContainer'
         },
 	control: {		
             'mainviewport button[action=marcar_mapa]': {
@@ -44,33 +45,23 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que abre la camara del dispositivo. 
      */
     openCamera: function(p_button, p_eve){
-        //this.addLog('Se quiere sacar una foto.');
-        
         var me = this;
-        //var deleteBtn = me.getDeleteBtn();
-        
-        // Se obtiene la referencia de la imagen.
+
+        // Se obtiene la referencia de la imagen.        
         var v_imagen = me.getImg();
         
         Ext.device.Camera.capture({
             success: fotoExitosa,
             scope: this,
             quality : 85,
-            /*width: 200,
-            height: 200,*/
             source: 'camera',
-           // destination: 'data'
             destinationType: 'file'
         });
         
         function fotoExitosa(p_imagen) {
             // Se obtiene la ruta de la imagen.
-            var v_ruta_imagen = p_imagen;
- 
+            var v_ruta_imagen = p_imagen; 
             v_imagen.setSrc(v_ruta_imagen);
-
-            //hide delete button
-            //deleteBtn.setHidden(false);
         }
     },
       
@@ -78,48 +69,26 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que abre la ventana donde se encuentra el mapa (OSM).
      */
     abrirMapa: function(){
-        alert("Entro Mapa");
-        
+        alert("Entro Mapa");        
         // Initialize the main view
-       // Ext.Viewport.add(Ext.create('DenunciasCamara.view.Mapa.Main'));
+        // Ext.Viewport.add(Ext.create('DenunciasCamara.view.Mapa.Main'));
     },
             
     hola: function(){
         // This is our true launch function
         ecopyahuMovil.bothReady = true; 
         ecopyahuMovil.semiConsole = Ext.getCmp('hconsole'); // this is an "alias" for our log label defined in Main.js
-        this.connectionPoll();
-        setInterval(this.connectionPoll, 30000);
     },
             
     addLog: function(toAdd){
-        var msgta = ecopyahuMovil.semiConsole.getHtml()+'<br>'+toAdd;
-    
+        var msgta = ecopyahuMovil.semiConsole.getHtml()+'<br>'+toAdd;    
         ecopyahuMovil.semiConsole.setHtml(msgta);
         console.log( msgta );
     },
-       
-    connectionPoll: function(){
-        var este = ecopyahuMovil.app.getController('General');
-        
-        ecopyahuMovil.connectionType = checkConnection();
-        //este.addLog('...polling... '+ ecopyahuMovil.connectionType+' with store count:'+ Ext.getStore('theImageQueue').getRange().length);
-        if(ecopyahuMovil.connectionType == 'WIFI' || ecopyahuMovil.connectionType == 'ETHERNET' ){//if we have wi-fi or ethernet
-            este.addLog('we have WIFI');
-            if(!este.getAreImagesUploading()){//and there aren't any images uploading already
-                if(Ext.getStore('theImageQueue').getRange().length){//and finally IF there are images to upload
-                    este.addLog('there is stuff in the queue');
-                    /********* WE BEGIN A NEW UPLOAD CYCLE OF THE IMAGES ON THE STORE ********/
-                    //Ext.Msg.alert('Begin', 'The file queue will start to upload.');
-                    este.uploadNextImage();
-                }
-            }
-        }
-    },        
-            
+             
     launch: function(){
-        console.log('This thing has started.');
-        if(oneReady || Ext.os.is.Desktop){//if we are on desktop we assume there's no phonegap.
+        if(oneReady || Ext.os.is.Desktop){
+        	//if we are on desktop we assume there's no phonegap.
             this.hola();
         }else{
             oneReady = true;
@@ -152,11 +121,15 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * Metodo que envia una denuncia al servidor.
      */
     enviarDenuncia: function(){
-        console.log("v_scope", this);
         var v_scope = this;
+        
+        console.log("sa", v_scope.getApplication().getName());
+        
+        
         var v_formulario = v_scope.getPrincipal();
         var v_categoria = v_formulario.down('selectfield');
-        var v_denuncia_descripcion = v_formulario.down('fullscreentextarea');
+        //var v_denuncia_descripcion = v_formulario.down('fullscreentextarea');
+        var v_denuncia_descripcion = v_formulario.down('textareafield');
         
         // Obtener los datos del GPS.
         var v_latitud = v_scope.latitud;
@@ -179,6 +152,9 @@ Ext.define('ecopyahuMovil.controller.Main',{
                     var v_imagen_url = v_imagen.getSrc();
                     var v_win = function(){
                         Ext.Msg.alert('Exito', p_response.mensaje);
+                    
+                        // Se limpia el formulario.
+                        v_scope.limpiarFormulario();
                     };
                     var v_fail = function(p_error){
                         //<debug>
@@ -203,8 +179,6 @@ Ext.define('ecopyahuMovil.controller.Main',{
 		}else{
 		     Ext.Msg.alert('Error', p_response.mensaje);
                 } 
-                // Se limpia el formulario.
-                v_scope.limpiarFormulario();
             },
             failure: function(){
                 //<debug>
@@ -222,8 +196,60 @@ Ext.define('ecopyahuMovil.controller.Main',{
     limpiarFormulario: function(){
         var v_scope = this;
         var v_formulario = v_scope.getPrincipal();
+        
+        // Se resetea la imagen.
+        v_scope.resetImagen();
 
         // Limpia el formulario.
         v_formulario.reset(); 
+    },
+    
+    /**
+     * Metodo publico que resetea la imagen.
+     */
+    resetImagen: function(){
+        var v_scope = this;
+        var v_imagen = v_scope.getImg(); 
+     
+        v_imagen.destroy();
+        
+        // Crea una imagen vacia.
+        v_scope.crearImagen();   
+    },
+    
+    /**
+     * Metodo que crea una imagen pero vacia.
+     */
+    crearImagen: function(){
+        var v_scope = this;
+        var v_imgContainer = v_scope.getImgContainer();
+        var v_imagen;
+        
+        v_imagen = {
+           xtype : 'image',
+           itemId: 'img',
+           height: 200       
+        };
+
+        v_imgContainer.add(v_imagen);
+    },
+    
+    /**
+     * @method tieneConexionInternet
+     * Metodo publico que retorna true o false
+     * para saber si tiene coneccion a internet.
+     * @reutn boolean
+     */
+    tieneConexionInternet: function(){
+        var v_scope = this;
+        var v_nombre_aplicacion = v_scope.getApplication().getName();
+        
+        v_nombre_aplicacion.connectionType = checkConnection();
+        if(v_nombre_aplicacion.connectionType == 'WIFI' || v_nombre_aplicacion.connectionType == 'CELL_3G'
+            || v_nombre_aplicacion.connectionType == 'CELL_4G'){
+            // Si se tiene coneccion wifi, 3g o 4g.
+            return true;
+        }
+        return false;
     }
 });
