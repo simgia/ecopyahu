@@ -82,16 +82,10 @@ Ext.application({
 var oneReady = false;       // This is for checking who loaded first.
 
 function checkConnection(){
-    
-    console.log("entro checkConnection1");
     if(!navigator.network){
         return 'UNKNOWN';
     }  
-    console.log("entro checkConnection2");
     var v_networkState = navigator.network.connection.type;
-    
-    console.log(v_networkState);
-    console.log("entro checkConnection3");
     
     var v_states = {};
         v_states[Connection.UNKNOWN] = 'UNKNOWN';

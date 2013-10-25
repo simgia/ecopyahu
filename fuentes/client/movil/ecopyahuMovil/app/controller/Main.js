@@ -262,18 +262,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
      */
     tieneConexionInternet: function(){
         var v_scope = this;
-        var v_nombre_aplicacion = v_scope.getApplication().getName();
-        console.log("entro1");
-        
-        v_nombre_aplicacion.connectionType = checkConnection();
         var v_conexion = checkConnection();
-        
-        console.log("entro2");
-        console.log(v_nombre_aplicacion.connectionType);
-        
-        console.log("v_conexion");
-        console.log(v_conexion);
-        
         
         if(v_conexion == 'WIFI' || v_conexion == 'CELL_3G'
             || v_conexion == 'CELL_4G'){
