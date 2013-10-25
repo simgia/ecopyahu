@@ -33,7 +33,7 @@ class multimedias_m extends CI_Model{
     }
     
     /**
-     * Metodo publico que devuelve un archivo multimedia.
+     * Metodo publico que devuelve archivos multimedia.
      * @method get_multimedias
      * @param int $p_denuncia_id
      * @return type
@@ -43,6 +43,7 @@ class multimedias_m extends CI_Model{
         return $this->db->get('multimedias');
     }
     
+
      /**
      * Metodo publico que devuelve el path y el nombre del archivo multimedia para una denuncia por medio del ws
      * @method get_multimedias
@@ -57,5 +58,24 @@ class multimedias_m extends CI_Model{
             return $r->result();
         else
             return false;   
+        
+     }
+        
+    /**
+     * Metodo publico que devuelve imagenes.
+     * @method get_imagenes
+     * @param int $p_denuncia_id
+     * @return type
+     */
+    public function get_imagenes($p_denuncia_id){
+        $this->db->where('denuncia_id', $p_denuncia_id);
+        $this->db->where('multimedia_tipo', 'img');
+        return $this->db->get('multimedias');
+    }
+    
+    public function get_denuncias_detalle_imagenes($codigo_decimal) {
+        // echo "CODIGO DECIMAL: ".$codigo_decimal;
+        $this->db->where('denuncia_id',$codigo_decimal);
+        return $this->db->get('imagenes');
     }
 } // Fin del model denuncias_m.

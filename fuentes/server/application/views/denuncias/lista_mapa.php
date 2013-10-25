@@ -4,6 +4,12 @@ $this->load->view('comunes/cabecera');
 <head>
     <link rel="stylesheet" href="<?php echo base_url() ?>js/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
     <script src="<?php echo base_url() ?>js/OpenLayers-2.13.1/OpenLayers.js"></script>
+    <script src="<?php echo base_url() ?>js/JQuery/jquery-1.9.1.js"></script>
+    <script src="<?php echo base_url() ?>js/JQuery/jquery-ui-1.10.3.custom.js"></script>
+    <script src="<?php echo base_url() ?>js/JQuery/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="<?php echo base_url() ?>js/JQuery/jquery.bpopup.min.js"></script>
+    <script src="<?php echo base_url() ?>js/JQuery/jquery.simplemodal.js"></script>
+    
     <style type="text/css">
         /*
          * Para la Atribucion del Mapa. En este caso a OpenStreetMap 
@@ -99,10 +105,11 @@ $this->load->view('comunes/cabecera');
             }); 
             // Crear layer OSM.
             var v_arrayOSM = [
-                 "http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
-                 "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
-                 "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
-                 "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"];
+                "http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"
+            ];
             var v_layer_osm = new OpenLayers.Layer.OSM('osm', v_arrayOSM);
 	
             // Agregar el layer OSM al mapa.
@@ -118,8 +125,8 @@ $this->load->view('comunes/cabecera');
             v_offset = new OpenLayers.Pixel(-(v_tamanio.w / 2), -v_tamanio.h);
            
             // Iconos de los marcadores.
-            v_icono_denuncia_unica = new OpenLayers.Icon('<?php echo base_url() ?>js/OpenLayers-2.13.1/img/marker-gold.png', v_tamanio, v_offset);
-            v_icono_denuncias_varias = new OpenLayers.Icon('<?php echo base_url() ?>js/OpenLayers-2.13.1/img/marker.png', v_tamanio, v_offset);
+            v_icono_denuncia_unica = new OpenLayers.Icon('<?php echo base_url(); ?>js/OpenLayers-2.13.1/img/marker-gold.png', v_tamanio, v_offset);
+            v_icono_denuncias_varias = new OpenLayers.Icon('<?php echo base_url(); ?>js/OpenLayers-2.13.1/img/marker.png', v_tamanio, v_offset);
             
             // Se agrega un marcador en el Layer de marcadores.
             <?php
@@ -127,6 +134,7 @@ $this->load->view('comunes/cabecera');
             	$promedio_lat = 0;
             	$promedio_long = 0;
             	$cant = 0;
+                if(isset($puntos)){
             	foreach($puntos as $punto){
                     $cant++;
                     $promedio_lat += $punto->latitud;
@@ -186,17 +194,23 @@ $this->load->view('comunes/cabecera');
 		            	}
 		            	?>
 	           	        "<?php 
-	           	        	if($punto->cantidad == 1){
-                                            $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->id_denuncia);
-	           	        	    //echo "<br>La denuncia es: <a href='".$v_url."' target='_blank' >" . $punto->denuncia_id . '</a><b> ' . $punto->estado . '</b>';
-	           	        	}else{
-	           	        	     echo '<br>Las denuncias son: <ul>';
-	           	        	     for($i = 0; $i < count($punto->denuncias); $i++){
-                                                 $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->denuncias[$i]->denuncia_id);
-	           	        		 //echo "<li><a target='_blank' href='".$v_url."'>".$punto->denuncias[$i]->id_denuncia."</a><b> ".$punto->denuncias[$i]->estado."</b></li>";
-                                             }
-                                             echo '</ul>';
-	           	        	}
+                                     if($punto->cantidad == 1){
+                                         $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->denuncia_id);
+	           	        	 //echo "<br>La denuncia es: <a href='".$v_url."' target='_blank' >" . $punto->denuncia_id . '</a>';
+                                         echo "<br>La denuncia es: <a rel='pop-up' href='javascript:ver_detalle_denuncia($punto->denuncia_id);'>" . $punto->denuncia_id . '</a>';
+                                         //echo "<br>La denuncia es: <a href='http://google.com' onclick='window.open(this.href, 'windowName', 'width=1000, height=700, left=24, top=24, scrollbars, resizable'); return false;'>" . $punto->denuncia_id . '</a>';
+                                         //echo "<a id='some_id' onclick='ver_detalle_denuncia' class='optional_has_click'>Click Me</a>";
+                                         
+                                         //echo "<a href = '#' onClick='javascript:popUp(".$v_url.")'‌​>link</a>";
+                                         //echo "$('element_to_pop_up').bPopup();";
+	           	             }else{
+	           	        	 echo '<br>Las denuncias son: <ul>';
+	           	        	 for($i = 0; $i < count($punto->denuncias); $i++){
+                                             $v_url = base_url('denuncias/consulta_detalle_denuncia').'/?denuncia_id='.trim($punto->denuncias[$i]->denuncia_id);
+	           	        	     echo "<li><a target='_blank' href='".$v_url."'>".$punto->denuncias[$i]->denuncia_id."</a></li>";
+                                         }
+                                         echo '</ul>';
+                                     }
                                 ?>
 	           	        ",
 	           	        true,
@@ -218,7 +232,8 @@ $this->load->view('comunes/cabecera');
            		}); // Fin del evento click del v_marcador.
            		v_layer_marcador.addMarker(v_marcador); 
            <?php
-            	}//end foreach
+            	}//end foreach.
+                }// end if.
             	if($cant == 0){ 
                     // Control de que no hay nada que haya pasado por el foreach.
                     $cant++;
@@ -227,20 +242,34 @@ $this->load->view('comunes/cabecera');
             	}
             ?>
             // Posicionar para la primera visualizacion el mapa en una latitud y longitud elegida.
-            v_mapa.setCenter(new OpenLayers.LonLat(<?php echo $promedio_long/$cant?>, <?php echo $promedio_lat/$cant?>) 	// Centrar el mapa.
+            v_mapa.setCenter(new OpenLayers.LonLat(<?php echo $promedio_long/$cant;?>, <?php echo $promedio_lat/$cant;?>) 	// Centrar el mapa.
                 .transform(
                     v_fromProjection, 					// Transformar from WGS 1984
                     v_toProjection 					// a Spherical Mercator Projection.
                 ), 13 							// Nivel de zoom
             ); 
         } // Fin de la funcion inicializar.
+        
+        /**
+         * 
+         */
+        function ver_detalle_denuncia(p_denuncia_id){
+            $(document).ready( function() {
+                $("a[rel='pop-up']").click(function () {
+                    var caracteristicas = "height=450,width=400,resizable=0,scrollbars=0,status=no,toolbar=no,menubar=no,location=no";
+
+                    nueva = window.open('denuncias/consulta_detalle_denuncia/?denuncia_id=' + p_denuncia_id, '_blank', caracteristicas);
+                    return false;
+                });
+            });
+        }
 	</script>
 </head>
 <!--CUERPO-->
-<body onload='inicializar();'>		
+<body onload='inicializar();'>	 
     <div id="content-denunciar">		
         <?php $this->load->view('comunes/menu')?>
-            <h2>Realizar la denuncia</h2>
+            <h2>Denuncias</h2>
             <br/>
             <br/>
             <center>
