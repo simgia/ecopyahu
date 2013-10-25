@@ -20,7 +20,7 @@
                 echo LOCAL_IMG_PATH.$imagen->multimedia_file_name;
                 break;       
         }
-        ?>" alt ="<?php echo $datos_denuncia->denuncia_desc; ?>"/>
+        ?>" style='max-width: 640px;' alt ="<?php echo $datos_denuncia->denuncia_desc; ?>"/>
         
 <?php }?>
 
