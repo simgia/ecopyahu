@@ -6,10 +6,20 @@
     <nav>
         <ul>
             <li>
-                <a class="btn" href="">Realizar Denuncia</a>
+                <?php if($origen!="ayuda")
+                    echo '<a class="btn" href="ayuda/como">&#191;C&oacute;mo denunciar?</a>';
+                else
+                    echo '<a class="btn" href="/">Ver denuncias</a>';
+                ?>
             </li>
             <li>
-                <a class="btn" href="">Ver denuncias</a>
+                <a class="btn" href="<?php echo base_url()?>descargas/ecoPYahu.apk" title="Descargue la aplicaci&oacute;n para Android"><i class="fa fa-android fa-lg"></i>&nbsp;</a>
+            </li>
+            <li>
+                <a class="btn" href="#" title="Descargue la aplicaci&oacute;n para iOS (En desarrollo...)"><i class="fa fa-apple fa-lg"></i>&nbsp;</a>
+            </li>
+            <li>
+                <a class="btn" href="#" title="Descargue la aplicaci&oacute;n para WindowsPhone (En desarrollo...)"><i class="fa fa-windows fa-lg"></i>&nbsp;</a>
             </li>
         <ul>
     </nav>

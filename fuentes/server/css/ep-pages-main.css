@@ -123,5 +123,40 @@ footer {
 }
 .right {
     float: right;
-    padding: 10px;
+    padding: 24px 8px 8px 8px;
+    text-align: center;
+    font-size: 10pt;
+    width: 80px
+}
+.right a {
+    text-decoration: none;
+    color: white;
+}
+.right a:hover {
+    text-decoration: none;
+    color: red;
+}
+
+p {
+    margin-bottom: 13px;
+    line-height: 150%;
+    padding: 20px;
+}
+
+pre,
+code  {
+    font-family: consolas, courier, monospace;
+    font-size: 1em;
+    line-height: 1.2em;
+    white-space: pre;
+    background-color: #444444;
+    color: white;
+    border: 1px solid #666;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    border-radius: 1em; /* just in case */
+    padding: 1em;
+    margin: 1.2em 1em;
+    width: 50%; /* or whatever you prefer */
+    display: block;
 }
