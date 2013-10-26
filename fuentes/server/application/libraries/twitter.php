@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class twitter{
     private $ci;
     
-    private $tw_query = '?q=#ecopyahu+exclude:retweets';
+    private $tw_query = '?q=#ecopyahu+exclude:retweets+-from:ecopyahu';
     private $tw_settings = array(
 			    'oauth_access_token' => "2149537735-sQv0z8hdrFlC8zvTz08kfQlOoZBFODtEqYd8Zzq",
 			    'oauth_access_token_secret' => "Tb59MQM6HkLWFxfkaxjVEMJhBgOZ8NJ0RqjQEkdPXIAjF",
@@ -13,6 +13,8 @@ class twitter{
     private $tw_url_search = 'https://api.twitter.com/1.1/search/tweets.json';
     private $tw_url_rt = 'https://api.twitter.com/1.1/statuses/retweet/:id.json';
     private $tw_url_post = 'https://api.twitter.com/1.1/statuses/update.json';
+    private $tw_url_post_media =  'https://api.twitter.com/1.1/statuses/update_with_media.json';
+   
 
 
     
@@ -51,15 +53,25 @@ class twitter{
       */           
     public function sendTweet($texto){
           $this->twitter->getfield = null; //parche para no destruir y volver a instanciar la clase
-         $json = $this->twitterapiexchange->setPostfields(array("status" => $texto ))->buildOauth($this->tw_url_post, 'POST')->performRequest();
-         print_r(json_decode($json, true));
+         $json = $this->twitter->setPostfields(array("status" => $texto ))->buildOauth($this->tw_url_post, 'POST')->performRequest();
+        // print_r(json_decode($json, true));
     }
 
+      /*
+      * 
+      * twittea el texto y media
+      */           
+    public function sendTweetMedia($texto,$image){
+          $this->twitter->getfield = null; //parche para no destruir y volver a instanciar la clase
+          $json = $this->twitter->setPostfields(array("status" => $texto,"media[]"=>file_get_contents($image) ))->buildOauth($this->tw_url_post_media, 'POST')->performRequest();
+           print_r(json_decode($json, true));
+    }
+    
+    
     public function getMenciones(){
-         $this->twitter->postfield = null;//parche para no destruir y volver a instanciar la clase
+        $this->twitter->postfield = null;//parche para no destruir y volver a instanciar la clase
         $tweets = json_decode($this->twitterapiexchange->buildOauth( 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', 'GET')->performRequest());
-       print_r($tweets);
-
+       //print_r($tweets);
     }
 }
 ?>

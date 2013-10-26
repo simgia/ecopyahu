@@ -63,7 +63,7 @@ class ws extends CI_Controller{
                  */
                 
                 public function consumirWs(){
-                    $denuncias = file_get_contents('http://ecopyahu/ws/getDenuncias?cant=2&ord=asc&pag=1');
+                    $denuncias = file_get_contents('http://ecopyahu.simgia.com/ws/getDenuncias?cant=2&ord=asc&pag=1');
                     echo "<pre>";
                         print_r(json_decode($denuncias));
                     echo "</pre>";
