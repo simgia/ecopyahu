@@ -13,7 +13,14 @@ Ext.define("ecopyahuMovil.view.Main", {
 		items : [ {
 			docked : 'top',
 			xtype : 'titlebar',
-			title : 'Ecopyahu'
+			//title : 'ecoPYahu',
+                                                html: '<center><table><tr><td><img src="resources/icons/ico_ecopyahu36.png"></td><td> ecoPYahu</td></tr></table></center>' ,
+                                                style: 'color:white;'
+                                              /*  items:[
+                                                    {
+                                                        html:src:'resources/icons/ico_ecopyahu36.png'
+                                                    }
+                                                ]*/
 		}, {
 			xtype : 'capturarImagen'
 		}, {

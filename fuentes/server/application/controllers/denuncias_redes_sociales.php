@@ -98,6 +98,6 @@ class denuncias_redes_sociales extends CI_Controller {
                         }
 	}
 	/*function test(){
-                    $this->twitter->sendTweetMedia(substr('prueba prueba', 0,130),'http://ecopyahu.simgia.com/media/imagen/twitter/BXdsoUTIMAARUPu.jpg');
+                    $this->twitter->sendTweetMedia(substr('otra pueba', 0,130),'http://ecopyahu.simgia.com/media/imagen/twitter/BXdsoUTIMAARUPu.jpg');
 	}*/
 } // Fin del controlador denuncias.
