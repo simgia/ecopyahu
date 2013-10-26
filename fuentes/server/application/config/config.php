@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://ecopyahu/';
+$config['base_url']	= 'http://ecopyahu.simgia.com';
 
 /*
 |--------------------------------------------------------------------------

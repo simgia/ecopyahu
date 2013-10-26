@@ -48,10 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'ecopyahu';
-$db['default']['password'] = 'ecopyahu';
-$db['default']['database'] = 'ecopyahu';
+$db['default']['hostname'] = 'mysql.ecopyahu.simgia.com';
+$db['default']['username'] = 'ecopyahudbuser';
+$db['default']['password'] = '{76$T#Lp+@>*r*4';
+$db['default']['database'] = 'ecopyahudb';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
