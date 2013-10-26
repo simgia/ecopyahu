@@ -27,6 +27,7 @@ class denuncias_movil extends SMG_Controller {
 		$this->load->model ( 'usuarios_m', 'usuarios' );
 		$this->load->model ( 'denuncias_m', 'denuncias' );
 		$this->load->model ( 'multimedias_m', 'multimedias' );
+                $this->load->library ( 'twitter' );
 	}
 	
 	/**
@@ -147,11 +148,11 @@ class denuncias_movil extends SMG_Controller {
 						'denuncia_id' => $this->input->post ( 'denuncia_id', true ) 
 				);
 				$this->multimedias->guardar_multimedia ( $data );
-                                                                $denuncia = $this->denuncia->get_denuncia($this->input->post ( 'denuncia_id', true ) );
+                                $denuncia = $this->denuncias->get_denuncia($this->input->post ( 'denuncia_id', true ) );
                                                                 
-                                                                // Para twittear las denuncias, falta probar con la app movil.
-                                                                $this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0,130),base_url().$this->local_img_path.$upload_data ['file_name']);
-				$_data ['exito'] = true;
+                                // Para twittear las denuncia.
+                                $this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0, 130), base_url().$this->local_img_path.$upload_data ['file_name']);
+				$v_data ['exito'] = true;
 			}
 		}
 		echo json_encode ( $v_data );

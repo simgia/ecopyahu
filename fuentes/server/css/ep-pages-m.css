@@ -4,7 +4,7 @@
 div#logo,
 nav {
 	display: block;
-	margin-bottom: 2em;
+	/*margin-bottom: 2em;*/
 	text-align: center;
 	width: 100%;
 }
