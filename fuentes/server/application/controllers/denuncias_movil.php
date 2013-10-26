@@ -149,8 +149,8 @@ class denuncias_movil extends SMG_Controller {
 				$this->multimedias->guardar_multimedia ( $data );
                                                                 $denuncia = $this->denuncia->get_denuncia($this->input->post ( 'denuncia_id', true ) );
                                                                 
-                                                                //para twittear las denuncias, falta probar con la app movil
-                                                                //$this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0,130),base_url().$this->local_img_path.$upload_data ['file_name']);
+                                                                // Para twittear las denuncias, falta probar con la app movil.
+                                                                $this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0,130),base_url().$this->local_img_path.$upload_data ['file_name']);
 				$_data ['exito'] = true;
 			}
 		}
