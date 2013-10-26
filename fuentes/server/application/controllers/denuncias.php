@@ -10,7 +10,7 @@ class denuncias extends SMG_Controller{
      * @var denuncias_m
      */
     var $denuncias;
-   	
+	
     /**
      * Constructor donde levanta las librerias: 
      */
