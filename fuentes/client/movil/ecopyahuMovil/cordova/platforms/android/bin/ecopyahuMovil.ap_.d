@@ -78,6 +78,7 @@
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/iTunesArtwork.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/Icon~ipad.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/Icon~ipad@2x.png \
+/var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/ico_ecopyahu36.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/Icon.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/icon-spot~ipad.png \
 /var/www/ecopyahu/fuentes/client/movil/ecopyahuMovil/cordova/platforms/android/assets/www/resources/icons/Icon@2x.png \
