@@ -45,7 +45,7 @@ class twitter{
                     $url = str_replace(':id', $tweet_id, $this->tw_url_rt);
                     $json = $this->twitter->setPostfields($postfields)->buildOauth($url, 'POST')->performRequest();
                     $retweetdata=json_decode($json, true);
-                    print_r($retweetdata);
+                 //   print_r($retweetdata);
                 }
      /*
       * 
@@ -64,7 +64,7 @@ class twitter{
     public function sendTweetMedia($texto,$image){
           $this->twitter->getfield = null; //parche para no destruir y volver a instanciar la clase
           $json = $this->twitter->setPostfields(array("status" => $texto,"media[]"=>file_get_contents($image) ))->buildOauth($this->tw_url_post_media, 'POST')->performRequest();
-           print_r(json_decode($json, true));
+           //print_r(json_decode($json, true));
     }
     
     
