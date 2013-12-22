@@ -264,8 +264,31 @@ $this->load->view('comunes/cabecera');
                     $promedio_lat  = -25.31941;
             	}
             ?>
-            // Posicionar para la primera visualizacion el mapa en una latitud y longitud elegida.
-            v_mapa.setCenter(new OpenLayers.LonLat(<?php echo $promedio_long/$cant;?>, <?php echo $promedio_lat/$cant;?>) 	// Centrar el mapa.
+            // Obtener latitud y longitud.
+            var v_latitud_actual;
+            var v_longitud_actual;
+            
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    v_latitud_actual = position.coords.latitude;
+                    v_longitud_actual = position.coords.longitude;
+          	}, function(error) {
+                    alert("Código de error: " + error.code);
+                    // error.code can be:
+            	    //   0: unknown error
+            	    //   1: permission denied
+                    //   2: position unavailable (error response from locaton provider)
+                    //   3: timed out
+                    v_latitud_actual = -57.58146;
+                    v_longitud_actual = -25.31941;
+          	});
+            }else{
+                 v_latitud_actual = -57.58146;
+                 v_longitud_actual = -25.31941;
+            }
+            // Posicionar para la primera visualizacion el mapa en una latitud y longitud elegida
+            // por geolocalizacion o por defecto en Asuncion/Paraguay.
+            v_mapa.setCenter(new OpenLayers.LonLat(v_longitud_actual, v_latitud_actual) // Centrar el mapa.
                 .transform(
                     v_fromProjection, 					// Transformar from WGS 1984
                     v_toProjection 					// a Spherical Mercator Projection.
