@@ -273,7 +273,7 @@ $this->load->view('comunes/cabecera');
                     v_latitud_actual = position.coords.latitude;
                     v_longitud_actual = position.coords.longitude;
           	}, function(error) {
-                    alert("Código de error: " + error.code);
+                    //alert("Código de error: " + error.code);
                     // error.code can be:
             	    //   0: unknown error
             	    //   1: permission denied
