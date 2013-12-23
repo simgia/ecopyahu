@@ -2,11 +2,13 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="org.apache.cordova.file-transfer"
-    version="0.3.3">
+    version="0.4.0">
     <name>File Transfer</name>
     <description>Cordova File Transfer Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,file,transfer</keywords>
+    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-file-transfer.git</repo>
+    <issue>https://issues.apache.org/jira/browse/CB/component/12320650</issue>
 
     <dependency id="org.apache.cordova.file" />
 
@@ -33,6 +35,29 @@
         <source-file src="src/android/FileTransfer.java" target-dir="src/org/apache/cordova/filetransfer" />
         <source-file src="src/android/FileProgressResult.java" target-dir="src/org/apache/cordova/filetransfer" />
         <source-file src="src/android/FileUploadResult.java" target-dir="src/org/apache/cordova/filetransfer" />
+    </platform>
+
+    <!-- amamzon-fireos -->
+    <platform name="amazon-fireos">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="FileTransfer" >
+                <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+
+        <source-file src="src/amazon/FileTransfer.java" target-dir="src/org/apache/cordova/filetransfer" />
+        <source-file src="src/android/FileProgressResult.java" target-dir="src/org/apache/cordova/filetransfer" />
+        <source-file src="src/android/FileUploadResult.java" target-dir="src/org/apache/cordova/filetransfer" />
+    </platform>
+    
+    <!-- ubuntu -->
+    <platform name="ubuntu">
+        <header-file src="src/ubuntu/file-transfer.h" />
+        <source-file src="src/ubuntu/file-transfer.cpp" />
     </platform>
 
     <platform name="blackberry10">

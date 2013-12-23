@@ -129,11 +129,17 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var v_se_envia_denuncia = v_scope.tieneConexionInternet();
         
         if(v_se_envia_denuncia){
-            // Se envia la denuncia.
-            v_scope.enviarDenuncia();
+            // Se valida si existe descripcion.
+            var v_validacionDescripcion = v_scope.validacionDescripcion();
+            if(v_validacionDescripcion){
+                // Se envia la denuncia.
+                v_scope.enviarDenuncia();
+            }else{
+                 Ext.Msg.alert('Error', 'Debe tener una descripci\u00f3n');
+            }
         }else{
-             Ext.Msg.alert('Error', 'No tiene conexión a internet para enviar la denuncia');
-        }
+             Ext.Msg.alert('Error', 'No tiene conexi\u00f3n a internet para enviar la denuncia');
+        }    
     },
     
     /**
@@ -150,6 +156,15 @@ Ext.define('ecopyahuMovil.controller.Main',{
         var v_latitud = v_scope.latitud;
         var v_longitud = v_scope.longitud;
         
+        // Obtener boton de la denuncia.
+        var v_boton_denuncia = v_formulario.down('button[action=enviar_denuncia]');
+                    
+        // Se deshabilita el boton de la denuncia.
+        v_boton_denuncia.setDisabled(true);
+        
+        // Se cambia el texto del boton para indicar que se esta enviado la denuncia.
+        v_boton_denuncia.setText('Se esta enviando la denuncia ...');
+        
         Ext.data.JsonP.request({
             url: v_scope.getApplication().app_url + 'denuncias_movil/insertar_denuncia',
             params: {
@@ -165,12 +180,24 @@ Ext.define('ecopyahuMovil.controller.Main',{
                     var v_imagen = v_scope.getImg(); 
                     var v_imagen_url = v_imagen.getSrc();
                     var v_win = function(){
+                        // Se habilita el boton de la denuncia.
+                        v_boton_denuncia.setDisabled(false);
+                        
+                        // Se vuelve a colocar el texto por defecto del boton.
+                        v_boton_denuncia.setText('Enviar');
+                
                         Ext.Msg.alert('Exito', p_response.mensaje);
                     
                         // Se limpia el formulario.
                         v_scope.limpiarFormulario();
                     };
                     var v_fail = function(p_error){
+                        // Se habilita el boton de la denuncia.
+                        v_boton_denuncia.setDisabled(false);
+                        
+                        // Se vuelve a colocar el texto por defecto del boton.
+                        v_boton_denuncia.setText('Enviar');
+                
                         //<debug>
                         console.log("An error has occurred: Code = " + p_error.code);
                         console.log("upload error source " + p_error.source);
@@ -195,6 +222,9 @@ Ext.define('ecopyahuMovil.controller.Main',{
                 } 
             },
             failure: function(){
+                // Se habilita el boton de la denuncia.
+                v_boton_denuncia.setDisabled(false);
+                
                 //<debug>
                 Ext.Msg.alert('Exito', 'Error en JsonP');
                 console.log('Error en ajax');
@@ -258,7 +288,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
      * @method tieneConexionInternet
      * Metodo publico que retorna true o false
      * para saber si tiene coneccion a internet.
-     * @reutn boolean
+     * @return boolean
      */
     tieneConexionInternet: function(){
         var v_scope = this;
@@ -270,5 +300,24 @@ Ext.define('ecopyahuMovil.controller.Main',{
             return true;
         }
         return false;
+    },
+    
+    /**
+     * @method validacionDescripcion
+     * Metodo publico que hace una validacion de algunos
+     * datos para enviar.
+     * @return boolean
+     * 
+     */
+    validacionDescripcion: function(){
+        var v_scope = this;
+        var v_formulario = v_scope.getPrincipal();
+        var v_descripcion = v_formulario.down('textareafield[name=descripcion]');
+        
+        if(v_descripcion.getValue() != ''){
+            return true;
+        }else{
+             return false;
+        }
     }
 });
