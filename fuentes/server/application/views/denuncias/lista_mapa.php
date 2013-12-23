@@ -279,17 +279,17 @@ $this->load->view('comunes/cabecera');
             	    //   1: permission denied
                     //   2: position unavailable (error response from locaton provider)
                     //   3: timed out
-                    v_latitud_actual = -57.58146;
-                    v_longitud_actual = -25.31941;
+                    v_latitud_actual = -25.31941 ;
+                    v_longitud_actual = -57.58146;
           	});
             }else{
-                 v_latitud_actual = -57.58146;
-                 v_longitud_actual = -25.31941;
+                 v_latitud_actual = -25.31941 ;
+                 v_longitud_actual = -57.58146;
             }
             */
             // Posicionar para la primera visualizacion el mapa en Asuncion/Paraguay.
-            v_latitud_actual = -57.58146;
-            v_longitud_actual = -25.31941;
+            v_latitud_actual = -25.31941 ;
+            v_longitud_actual = -57.58146;
             v_mapa.setCenter(new OpenLayers.LonLat(v_longitud_actual, v_latitud_actual) // Centrar el mapa.
                 .transform(
                     v_fromProjection, 					// Transformar from WGS 1984

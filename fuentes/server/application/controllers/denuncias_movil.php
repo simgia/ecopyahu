@@ -158,7 +158,7 @@ class denuncias_movil extends SMG_Controller {
                 
                 // Si la imagen contiene datos GPS en la imagen, entonces va a extraer
                 // y actualizar la denuncia.
-                $v_exif = exif_read_data($v_imagen_subida);
+               /* $v_exif = exif_read_data($v_imagen_subida);
                 $v_longitud = getGps($v_exif["GPSLongitude"], $v_exif['GPSLongitudeRef']);
                 $v_latitud = getGps($v_exif["GPSLatitude"], $v_exif['GPSLatitudeRef']);
                 
@@ -168,7 +168,7 @@ class denuncias_movil extends SMG_Controller {
                         'denuncia_lat' => $v_latitud
                     );
                     $this->db->actualizar_denuncia($v_denuncia_id, $v_data);
-                }
+                }*/
                 
                 // Para twittear las denuncia.
                 $this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0, 130), $v_imagen_subida);
