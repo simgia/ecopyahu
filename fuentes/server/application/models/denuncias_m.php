@@ -129,4 +129,12 @@ class denuncias_m extends CI_Model{
     public function get_cantidad_resultados(){
         return $this->db->query('select FOUND_ROWS() as found_rows')->row()->found_rows;
     }
+    
+    /**
+     * 
+     */
+    public function actualizar_denuncia($p_denuncia_id, $p_data){
+        $this->db->where('denuncia_id', $p_denuncia_id);
+        $this->db->update('denuncias', $p_data); 
+    }
 } // Fin del model denuncias_m.

@@ -91,70 +91,90 @@ class denuncias_movil extends SMG_Controller {
 		echo $v_result;
 	}
 	
-	/**
-	 * Metodo publico que devuelve todas las categorias.
-	 */
-	public function getCategorias() {
-		$this->input->get ( 'limit', true );
-		$this->input->get ( 'offset', true );
-		
-		$v_categorias = $this->denuncias->get_categorias ();
-		$v_data ['cantidad_total'] = 0;
-		$v_data ['resultado'] = false;
-		
-		if ($v_categorias->num_rows () > 0) {
-			$v_data ['cantidad_total'] = $this->denuncias->get_cantidad_resultados ();
-			$v_data ['resultado'] = true;
-			$v_data ['data'] = $v_categorias->result ();
-		}
-		$v_data ['success'] = true;
-		
-		$v_callback = $_GET ['callback'];
-		if ($v_callback) {
-			header ( 'Content-Type: text/javascript; charset=utf-8' );
-			echo $v_callback . '(' . json_encode ( $v_data ) . ');';
-		} else {
-			header ( 'Content-Type: application/x-json' );
-			echo json_encode ( $v_data );
-		}
-	}
+    /**
+     * Metodo publico que devuelve todas las categorias.
+     */
+    public function getCategorias() {
+    	$this->input->get ( 'limit', true );
+	$this->input->get ( 'offset', true );
 	
-	/**
-	 *
-	 * @method subirMultimedia
-	 *         Metodo que sube el archivo multimedia. Tambien guarda en la base de
-	 *         datos lo que se subio.
-	 */
-	public function subirMultimedia() {
-		$v_data [] = array ();
+	$v_categorias = $this->denuncias->get_categorias ();
+	$v_data ['cantidad_total'] = 0;
+	$v_data ['resultado'] = false;
 		
-		$config ['upload_path'] = $this->local_img_path;
-		$config ['allowed_types'] = 'gif|jpg|png';
-		$config ['max_size'] = '1000';
-		// $config['max_width'] = '1024';
-		// $config['max_height'] = '768';
-		
-		$this->load->library ( 'upload', $config );
-		
-		foreach ( $_FILES as $key => $value ) {
-			if (! $this->upload->do_upload ( $key )) {
-				$v_data ['errores'] [] = $this->upload->display_errors ();
-			} else {
-				$upload_data = $this->upload->data ();
-				
-				$data = array (
-						'multimedia_file_name' => $upload_data ['file_name'],
-						'multimedia_tipo' => 'img',
-						'denuncia_id' => $this->input->post ( 'denuncia_id', true ) 
-				);
-				$this->multimedias->guardar_multimedia ( $data );
-                                $denuncia = $this->denuncias->get_denuncia($this->input->post ( 'denuncia_id', true ) );
-                                                                
-                                // Para twittear las denuncia.
-                                $this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0, 130), base_url().$this->local_img_path.$upload_data ['file_name']);
-				$v_data ['exito'] = true;
-			}
-		}
-		echo json_encode ( $v_data );
+	if ($v_categorias->num_rows () > 0) {
+            $v_data ['cantidad_total'] = $this->denuncias->get_cantidad_resultados ();
+            $v_data ['resultado'] = true;
+            $v_data ['data'] = $v_categorias->result ();
 	}
+	$v_data ['success'] = true;
+		
+	$v_callback = $_GET ['callback'];
+	if ($v_callback) {
+            header ( 'Content-Type: text/javascript; charset=utf-8' );
+	    echo $v_callback . '(' . json_encode ( $v_data ) . ');';
+	}else{
+	     header ( 'Content-Type: application/x-json' );
+	     echo json_encode ( $v_data );
+	}
+    }
+	
+    /**
+     *
+     * @method subirMultimedia
+     * Metodo que sube el archivo multimedia. Tambien guarda en la base de
+     * datos lo que se subio.
+     */
+    public function subirMultimedia() {
+	$v_data [] = array ();
+		
+	$config ['upload_path'] = $this->local_img_path;
+	$config ['allowed_types'] = 'gif|jpg|png';
+	$config ['max_size'] = '1000';
+	// $config['max_width'] = '1024';
+	// $config['max_height'] = '768';
+		
+	$this->load->library ( 'upload', $config );
+		
+	foreach ( $_FILES as $key => $value ) {
+            if(! $this->upload->do_upload ( $key )){
+                $v_data ['errores'] [] = $this->upload->display_errors ();
+            }else{
+                 $upload_data = $this->upload->data ();
+			
+                 // Denuncia id.
+                 $v_denuncia_id = $this->input->post ( 'denuncia_id', true );
+                 
+		 $data = array (
+                    'multimedia_file_name' => $upload_data ['file_name'],
+                    'multimedia_tipo' => 'img',
+                    'denuncia_id' => $v_denuncia_id
+		);
+		$this->multimedias->guardar_multimedia ( $data );
+                $denuncia = $this->denuncias->get_denuncia($this->input->post ( 'denuncia_id', true ) );
+                           
+                // La ruta completa de la imagen subida.
+                $v_imagen_subida = base_url().$this->local_img_path.$upload_data ['file_name'];
+                
+                // Si la imagen contiene datos GPS en la imagen, entonces va a extraer
+                // y actualizar la denuncia.
+                $v_exif = exif_read_data($v_imagen_subida);
+                $v_longitud = getGps($v_exif["GPSLongitude"], $v_exif['GPSLongitudeRef']);
+                $v_latitud = getGps($v_exif["GPSLatitude"], $v_exif['GPSLatitudeRef']);
+                
+                if($v_longitud != 0 && $v_latitud != 0){
+                    $v_data = array(
+                        'denuncia_lon' => $v_longitud,
+                        'denuncia_lat' => $v_latitud
+                    );
+                    $this->db->actualizar_denuncia($v_denuncia_id, $v_data);
+                }
+                
+                // Para twittear las denuncia.
+                $this->twitter->sendTweetMedia(substr($denuncia->row()->denuncia_desc, 0, 130), $v_imagen_subida);
+		$v_data ['exito'] = true;
+            }
+        }
+        echo json_encode ( $v_data );
+    }
 } // Fin del controlador denuncias_movil.
