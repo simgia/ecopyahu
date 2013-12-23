@@ -267,7 +267,7 @@ $this->load->view('comunes/cabecera');
             // Obtener latitud y longitud.
             var v_latitud_actual;
             var v_longitud_actual;
-            
+            /*
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(function(position) {
                     v_latitud_actual = position.coords.latitude;
@@ -286,8 +286,10 @@ $this->load->view('comunes/cabecera');
                  v_latitud_actual = -57.58146;
                  v_longitud_actual = -25.31941;
             }
-            // Posicionar para la primera visualizacion el mapa en una latitud y longitud elegida
-            // por geolocalizacion o por defecto en Asuncion/Paraguay.
+            */
+            // Posicionar para la primera visualizacion el mapa en Asuncion/Paraguay.
+            v_latitud_actual = -57.58146;
+            v_longitud_actual = -25.31941;
             v_mapa.setCenter(new OpenLayers.LonLat(v_longitud_actual, v_latitud_actual) // Centrar el mapa.
                 .transform(
                     v_fromProjection, 					// Transformar from WGS 1984
