@@ -163,7 +163,7 @@ Ext.define('ecopyahuMovil.controller.Main',{
         v_boton_denuncia.setDisabled(true);
         
         // Se cambia el texto del boton para indicar que se esta enviado la denuncia.
-        v_boton_denuncia.setText('Se esta enviando la denuncia ...');
+        v_boton_denuncia.setText('Se esta enviando la denuncia');
         
         Ext.data.JsonP.request({
             url: v_scope.getApplication().app_url + 'denuncias_movil/insertar_denuncia',
